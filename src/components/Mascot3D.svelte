@@ -333,16 +333,16 @@
             headGroup.add(glowRing);
         }
 
-        /* ── arms: shoulders → forward to the laptop ── */
-        const armGeo = track(new THREE.CapsuleGeometry(0.14, 0.6, 4, 8));
-        const handGeo = track(new THREE.SphereGeometry(0.14, 10, 8));
+        /* ── arms: shoulders → down to the laptop, hands resting on its edge ── */
+        const armGeo = track(new THREE.CapsuleGeometry(0.13, 0.72, 4, 8));
+        const handGeo = track(new THREE.SphereGeometry(0.13, 10, 8));
         for (const s of [-1, 1]) {
             const arm = new THREE.Mesh(armGeo, hoodieMat);
-            arm.position.set(s * 0.62, 0.68, 0.42);
-            arm.rotation.set(-1.15, 0, s * -0.35);
+            arm.position.set(s * 0.58, 0.35, 0.62);
+            arm.rotation.set(-1.05, 0, s * -0.28);
             charGroup.add(arm);
             const hand = new THREE.Mesh(handGeo, hoodieMat);
-            hand.position.set(s * 0.44, 0.22, 0.88);
+            hand.position.set(s * 0.4, -0.12, 0.95);
             charGroup.add(hand);
         }
 
