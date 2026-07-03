@@ -87,7 +87,7 @@
     <!-- full-bleed hero: escapes the page container/padding and tucks under the sticky header -->
     <section
         id="introPage"
-        class="relative -mt-20"
+        class="relative -mt-24"
         style="margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);"
     >
         <HeroInteractive>

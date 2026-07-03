@@ -173,28 +173,17 @@
         style="left: {glowX}%; top: {glowY}%;"
     />
 
-    <!-- HUD status readouts (frame the whole hero, below the header) -->
-    <div
-        class="absolute top-16 sm:top-20 left-4 z-[6] flex items-center gap-2 text-[10px] sm:text-xs tracking-widest text-neon-cyan/80 pointer-events-none"
-    >
-        <span class="status-pulse inline-block w-1.5 h-1.5 rounded-full bg-emerald-400" />
-        SYS.ONLINE
-    </div>
+    <!-- HUD status readout -->
     <div
         class="absolute top-16 sm:top-20 right-4 z-[6] text-[10px] sm:text-xs tracking-widest text-slate-500 pointer-events-none"
     >
         LOC: MUMBAI · {clock} IST
     </div>
+
+    <!-- smooth fade into the page background at the bottom -->
     <div
-        class="absolute bottom-3 left-4 z-[6] text-[10px] sm:text-xs tracking-widest text-slate-600 pointer-events-none"
-    >
-        UNIT: SO-01 // FULL-STACK
-    </div>
-    <div
-        class="absolute bottom-3 right-4 z-[6] text-[10px] sm:text-xs tracking-widest text-neon-violet/70 pointer-events-none"
-    >
-        v2.0
-    </div>
+        class="absolute bottom-0 left-0 w-full h-32 sm:h-40 bg-gradient-to-b from-transparent to-noir-950 z-[6] pointer-events-none"
+    />
 
     <!-- content: hero text (slot) + mascot, re-centered inside the full-bleed stage -->
     <div
