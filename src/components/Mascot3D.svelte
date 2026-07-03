@@ -601,13 +601,20 @@
         const scheduleBlink = () => {
             blinkTimer = setTimeout(() => {
                 for (const eye of eyes) {
-                    gsap.to(eye.scale, {
-                        y: 0.08,
-                        duration: 0.07,
-                        yoyo: true,
-                        repeat: 1,
-                        ease: "power2.inOut",
-                    });
+                    // explicit close→open so an interrupted blink can never
+                    // leave the eyes stuck shut
+                    gsap.killTweensOf(eye.scale);
+                    gsap.timeline()
+                        .to(eye.scale, {
+                            y: 0.08,
+                            duration: 0.07,
+                            ease: "power2.in",
+                        })
+                        .to(eye.scale, {
+                            y: 1,
+                            duration: 0.09,
+                            ease: "power2.out",
+                        });
                 }
                 scheduleBlink();
             }, 2800 + Math.random() * 3200);
