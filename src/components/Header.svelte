@@ -38,7 +38,7 @@
             href="#footer"
             class="relative overflow-hidden px-5 py-2 group border border-solid border-neon-cyan/40 text-neon-cyan text-sm hover:neon-glow-cyan hover:border-neon-cyan/80 duration-200"
         >
-            open_channel()
+            lets_build()
         </a>
     </div>
 </header>
