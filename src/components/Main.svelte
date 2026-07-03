@@ -124,13 +124,6 @@
                     </span>
                 </div>
 
-                <p
-                    class="text-xs sm:text-sm tracking-[0.2em] uppercase text-slate-400 mx-auto lg:mx-0"
-                >
-                    Research Intern <span class="text-neon-violet">@ IIT Ropar</span> · Full-Stack
-                    Developer · MERN + AI
-                </p>
-
                 <h2
                     class="font-semibold text-4xl sm:text-5xl md:text-6xl lg:text-[3.6rem] leading-tight"
                 >
@@ -150,13 +143,11 @@
                 </p>
 
                 <a
-                    href="https://query-2map-frontend-cm4w.onrender.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="/blog/iit-ropar"
                     class="group inline-flex items-center gap-2.5 mx-auto lg:mx-0 w-fit px-4 py-2 rounded-full border border-violet-500/40 bg-violet-950/30 text-sm text-violet-200 hover:border-neon-violet hover:neon-glow-violet duration-200"
                 >
                     <span class="status-pulse inline-block w-1.5 h-1.5 rounded-full bg-neon-violet" />
-                    Built @ IIT Ropar: <span class="text-neon-cyan">Query2Map</span> — try it live
+                    Read: how I landed my <span class="text-neon-cyan">IIT Ropar</span> internship
                     <span class="group-hover:translate-x-0.5 duration-200">→</span>
                 </a>
 
