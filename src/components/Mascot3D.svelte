@@ -410,9 +410,9 @@
                 })
             )
         );
-        logo.position.set(0, 0.21, 0.385);
-        logo.rotation.x = 0.45;
-        laptop.add(logo);
+        // parent to the lid so it always sits just in front of its surface
+        logo.position.set(0, 0, 0.045);
+        screen.add(logo);
 
         // screen light spilling onto the robot's visor/chest
         const screenLight = new THREE.PointLight(CYAN, 1.0, 4, 0);
