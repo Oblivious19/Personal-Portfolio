@@ -13,8 +13,8 @@ export default {
         neon: {
           violet: '#8b5cf6',
           'violet-bright': '#a78bfa',
-          cyan: '#22d3ee',
-          'cyan-bright': '#67e8f9'
+          cyan: '#f472b6',
+          'cyan-bright': '#f9a8d4'
         }
       },
       fontFamily: {

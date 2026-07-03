@@ -132,7 +132,7 @@
         <!-- cyan seam flash -->
         <div
             bind:this={seamEl}
-            class="absolute top-1/2 left-0 w-full h-[2px] bg-neon-cyan opacity-0 scale-x-0 shadow-[0_0_20px_rgba(34,211,238,0.9)]"
+            class="absolute top-1/2 left-0 w-full h-[2px] bg-neon-cyan opacity-0 scale-x-0 shadow-[0_0_20px_rgba(244,114,182,0.9)]"
         />
 
         <!-- content -->

@@ -68,7 +68,7 @@
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
             ctx.fillStyle = p.cyan
-                ? "rgba(34, 211, 238, 0.4)"
+                ? "rgba(244, 114, 182, 0.4)"
                 : "rgba(167, 139, 250, 0.4)";
             ctx.fill();
         }
@@ -84,7 +84,7 @@
                     ctx.lineTo(b.x, b.y);
                     ctx.strokeStyle =
                         a.cyan || b.cyan
-                            ? `rgba(34, 211, 238, ${0.07 * (1 - dist / CONNECT_DIST)})`
+                            ? `rgba(244, 114, 182, ${0.07 * (1 - dist / CONNECT_DIST)})`
                             : `rgba(139, 92, 246, ${0.09 * (1 - dist / CONNECT_DIST)})`;
                     ctx.lineWidth = 0.5;
                     ctx.stroke();

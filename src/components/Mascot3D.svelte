@@ -31,8 +31,8 @@
     let clockStart = 0;
 
     const VIOLET = 0x8b5cf6;
-    const CYAN = 0x22d3ee;
-    const CYAN_BRIGHT = 0x67e8f9;
+    const CYAN = 0xf472b6;
+    const CYAN_BRIGHT = 0xf9a8d4;
 
     function track(...items) {
         disposables.push(...items);
@@ -68,10 +68,10 @@
     function drawCodePanel(ctx) {
         ctx.fillStyle = "rgba(5, 8, 20, 0.85)";
         ctx.fillRect(0, 0, 256, 170);
-        ctx.strokeStyle = "rgba(34, 211, 238, 0.8)";
+        ctx.strokeStyle = "rgba(244, 114, 182, 0.8)";
         ctx.lineWidth = 2;
         ctx.strokeRect(3, 3, 250, 164);
-        const colors = ["#8b5cf6", "#22d3ee", "#e2e8f0", "#67e8f9"];
+        const colors = ["#8b5cf6", "#f472b6", "#e2e8f0", "#f9a8d4"];
         for (let i = 0; i < 8; i++) {
             ctx.fillStyle = colors[i % colors.length];
             ctx.globalAlpha = 0.85;
@@ -97,7 +97,7 @@
             ctx.stroke();
         }
         // line chart
-        ctx.strokeStyle = "#22d3ee";
+        ctx.strokeStyle = "#f472b6";
         ctx.lineWidth = 3;
         ctx.beginPath();
         const pts = [130, 110, 118, 84, 92, 58, 40];
@@ -117,7 +117,7 @@
     function drawRingPanel(ctx) {
         ctx.fillStyle = "rgba(5, 8, 20, 0.85)";
         ctx.fillRect(0, 0, 170, 170);
-        ctx.strokeStyle = "rgba(34, 211, 238, 0.8)";
+        ctx.strokeStyle = "rgba(244, 114, 182, 0.8)";
         ctx.lineWidth = 2;
         ctx.strokeRect(3, 3, 164, 164);
         ctx.strokeStyle = "rgba(139, 92, 246, 0.35)";
@@ -125,7 +125,7 @@
         ctx.beginPath();
         ctx.arc(85, 85, 52, 0, Math.PI * 2);
         ctx.stroke();
-        ctx.strokeStyle = "#22d3ee";
+        ctx.strokeStyle = "#f472b6";
         ctx.beginPath();
         ctx.arc(85, 85, 52, -Math.PI / 2, Math.PI * 1.1);
         ctx.stroke();
@@ -194,6 +194,9 @@
         const accentMat = track(
             new THREE.MeshBasicMaterial({ color: VIOLET })
         );
+        const magentaMat = track(
+            new THREE.MeshBasicMaterial({ color: 0xe879f9 })
+        );
 
         charGroup = new THREE.Group();
         scene.add(charGroup);
@@ -216,7 +219,7 @@
         charGroup.add(chestRing);
         const chestDot = new THREE.Mesh(
             track(new THREE.CircleGeometry(0.07, 16)),
-            accentMat
+            magentaMat
         );
         chestDot.position.set(0, 0.78, 0.87);
         charGroup.add(chestDot);
@@ -245,13 +248,20 @@
         visor.scale.set(0.95, 0.78, 0.65);
         charGroup.add(visor);
 
-        // eyes ON the visor (visible, blinking)
+        // eyes ON the visor (visible, blinking) with lash-lines
         const eyeGeo = track(new THREE.CapsuleGeometry(0.055, 0.1, 4, 8));
+        const lashGeo = track(new THREE.CapsuleGeometry(0.014, 0.06, 4, 6));
         for (const x of [-0.19, 0.19]) {
             const eye = new THREE.Mesh(eyeGeo, eyeMat);
             eye.position.set(x, 2.03, 0.74);
             charGroup.add(eye);
             eyes.push(eye);
+            // small angled lash at the outer top corner of each eye
+            const s = Math.sign(x);
+            const lash = new THREE.Mesh(lashGeo, eyeMat);
+            lash.position.set(x + s * 0.075, 2.13, 0.73);
+            lash.rotation.z = s * -0.95;
+            charGroup.add(lash);
         }
         // little smile
         const smile = new THREE.Mesh(
@@ -271,7 +281,7 @@
         charGroup.add(antennaRod);
         const antennaTip = new THREE.Mesh(
             track(new THREE.SphereGeometry(0.07, 10, 8)),
-            accentMat
+            magentaMat
         );
         antennaTip.position.set(0, 3.02, 0);
         charGroup.add(antennaTip);
@@ -356,11 +366,11 @@
         const logoTex = track(
             new THREE.CanvasTexture(
                 makeCanvas(128, 96, (ctx) => {
-                    ctx.fillStyle = "#67e8f9";
+                    ctx.fillStyle = "#f9a8d4";
                     ctx.font = "bold 40px monospace";
                     ctx.textAlign = "center";
                     ctx.textBaseline = "middle";
-                    ctx.shadowColor = "#22d3ee";
+                    ctx.shadowColor = "#f472b6";
                     ctx.shadowBlur = 14;
                     ctx.fillText("</>", 64, 50);
                 })
