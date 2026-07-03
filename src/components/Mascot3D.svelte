@@ -30,6 +30,31 @@
     let currentRotY = 0;
     let clockStart = 0;
 
+    // interactions
+    let headGroup;
+    let doEmote = null;
+    let dragging = false;
+    let dragMoved = 0;
+    let lastDragX = 0;
+    let spinVel = 0;
+    let spinExtra = 0;
+    let lastPointerT = 0;
+    let idleEmoteTimer;
+
+    // speech bubble
+    const speechLines = [
+        "hi! i'm shreya's bot ✦",
+        "deploying to prod…",
+        "powered by caffeine",
+        "0 bugs found (today)",
+        "ask me about MERN",
+        "click me!",
+    ];
+    let speechIdx = 0;
+    let speechVisible = true;
+    let speechTimer;
+    let hearts = [];
+
     const VIOLET = 0x8b5cf6;
     const CYAN = 0xf472b6;
     const CYAN_BRIGHT = 0xf9a8d4;
@@ -201,39 +226,37 @@
         charGroup = new THREE.Group();
         scene.add(charGroup);
 
-        /* ── body ── */
+        /* ── body: slimmer, tapered ── */
         const torso = new THREE.Mesh(
             track(new THREE.SphereGeometry(1.0, 14, 12)),
             hoodieMat
         );
-        torso.scale.set(1, 1.12, 0.92);
-        torso.position.y = 0.62;
+        torso.scale.set(0.82, 1.25, 0.78);
+        torso.position.y = 0.55;
         charGroup.add(torso);
 
-        // chest core: glowing cyan ring + dot
-        const chestRing = new THREE.Mesh(
-            track(new THREE.TorusGeometry(0.16, 0.03, 8, 24)),
-            cyanBasic(THREE)
-        );
-        chestRing.position.set(0, 0.78, 0.86);
-        charGroup.add(chestRing);
+        // small magenta core dot on the chest
         const chestDot = new THREE.Mesh(
-            track(new THREE.CircleGeometry(0.07, 16)),
+            track(new THREE.CircleGeometry(0.05, 16)),
             magentaMat
         );
-        chestDot.position.set(0, 0.78, 0.87);
+        chestDot.position.set(0, 0.95, 0.72);
         charGroup.add(chestDot);
 
-        /* ── head ── */
+        /* ── head group (tilts independently, follows cursor) ── */
+        headGroup = new THREE.Group();
+        headGroup.position.set(0, 2.0, 0);
+        headGroup.scale.setScalar(0.92);
+        charGroup.add(headGroup);
+
         const head = new THREE.Mesh(
             track(new THREE.SphereGeometry(0.72, 14, 12)),
             hoodieMat
         );
-        head.position.y = 2.0;
         head.scale.set(1, 0.95, 0.95);
-        charGroup.add(head);
+        headGroup.add(head);
 
-        // dark glossy visor on the FRONT of the head
+        // dark glossy visor clearly protruding from the head front
         const visor = new THREE.Mesh(
             track(new THREE.SphereGeometry(0.58, 14, 12)),
             track(
@@ -244,47 +267,48 @@
                 })
             )
         );
-        visor.position.set(0, 2.0, 0.28);
-        visor.scale.set(0.95, 0.78, 0.65);
-        charGroup.add(visor);
+        visor.position.set(0, 0.02, 0.3);
+        visor.scale.set(0.88, 0.72, 0.78);
+        headGroup.add(visor);
 
-        // eyes ON the visor (visible, blinking) with lash-lines
+        // eyes ON the visor (blinking, cursor-tracking) with lash-lines
         const eyeGeo = track(new THREE.CapsuleGeometry(0.055, 0.1, 4, 8));
         const lashGeo = track(new THREE.CapsuleGeometry(0.014, 0.06, 4, 6));
         for (const x of [-0.19, 0.19]) {
             const eye = new THREE.Mesh(eyeGeo, eyeMat);
-            eye.position.set(x, 2.03, 0.74);
-            charGroup.add(eye);
+            eye.position.set(x, 0.05, 0.79);
+            eye.userData.baseX = x;
+            eye.userData.baseY = 0.05;
+            headGroup.add(eye);
             eyes.push(eye);
-            // small angled lash at the outer top corner of each eye
             const s = Math.sign(x);
             const lash = new THREE.Mesh(lashGeo, eyeMat);
-            lash.position.set(x + s * 0.075, 2.13, 0.73);
+            lash.position.set(x + s * 0.075, 0.15, 0.78);
             lash.rotation.z = s * -0.95;
-            charGroup.add(lash);
+            headGroup.add(lash);
         }
         // little smile
         const smile = new THREE.Mesh(
             track(new THREE.TorusGeometry(0.09, 0.018, 6, 12, Math.PI)),
             eyeMat
         );
-        smile.position.set(0, 1.86, 0.74);
+        smile.position.set(0, -0.12, 0.79);
         smile.rotation.z = Math.PI;
-        charGroup.add(smile);
+        headGroup.add(smile);
 
         /* ── antenna ── */
         const antennaRod = new THREE.Mesh(
             track(new THREE.CylinderGeometry(0.025, 0.025, 0.34, 8)),
             deviceMat
         );
-        antennaRod.position.set(0, 2.82, 0);
-        charGroup.add(antennaRod);
+        antennaRod.position.set(0, 0.82, 0);
+        headGroup.add(antennaRod);
         const antennaTip = new THREE.Mesh(
             track(new THREE.SphereGeometry(0.07, 10, 8)),
             magentaMat
         );
-        antennaTip.position.set(0, 3.02, 0);
-        charGroup.add(antennaTip);
+        antennaTip.position.set(0, 1.02, 0);
+        headGroup.add(antennaTip);
         gsapPulse(antennaTip);
 
         /* ── headphones ── */
@@ -292,74 +316,74 @@
             track(new THREE.TorusGeometry(0.76, 0.075, 8, 16, Math.PI)),
             deviceMat
         );
-        band.position.y = 2.05;
-        charGroup.add(band);
+        band.position.y = 0.05;
+        headGroup.add(band);
         const cupGeo = track(new THREE.CylinderGeometry(0.2, 0.2, 0.14, 12));
         for (const x of [-0.76, 0.76]) {
             const cup = new THREE.Mesh(cupGeo, deviceMat);
-            cup.position.set(x, 1.98, 0);
+            cup.position.set(x, -0.02, 0);
             cup.rotation.z = Math.PI / 2;
-            charGroup.add(cup);
+            headGroup.add(cup);
             const glowRing = new THREE.Mesh(
                 track(new THREE.TorusGeometry(0.2, 0.022, 6, 20)),
                 x < 0 ? accentMat : cyanBasic(THREE)
             );
-            glowRing.position.set(x * 1.1, 1.98, 0);
+            glowRing.position.set(x * 1.1, -0.02, 0);
             glowRing.rotation.y = Math.PI / 2;
-            charGroup.add(glowRing);
+            headGroup.add(glowRing);
         }
 
         /* ── arms: shoulders → forward to the laptop ── */
-        const armGeo = track(new THREE.CapsuleGeometry(0.15, 0.62, 4, 8));
-        const handGeo = track(new THREE.SphereGeometry(0.15, 10, 8));
+        const armGeo = track(new THREE.CapsuleGeometry(0.14, 0.6, 4, 8));
+        const handGeo = track(new THREE.SphereGeometry(0.14, 10, 8));
         for (const s of [-1, 1]) {
             const arm = new THREE.Mesh(armGeo, hoodieMat);
-            arm.position.set(s * 0.78, 0.72, 0.45);
+            arm.position.set(s * 0.62, 0.68, 0.42);
             arm.rotation.set(-1.15, 0, s * -0.35);
             charGroup.add(arm);
             const hand = new THREE.Mesh(handGeo, hoodieMat);
-            hand.position.set(s * 0.52, 0.32, 0.92);
+            hand.position.set(s * 0.44, 0.22, 0.88);
             charGroup.add(hand);
         }
 
         /* ── stubby legs tucked under ── */
-        const legGeo = track(new THREE.CapsuleGeometry(0.19, 0.4, 4, 8));
+        const legGeo = track(new THREE.CapsuleGeometry(0.18, 0.38, 4, 8));
         for (const s of [-1, 1]) {
             const leg = new THREE.Mesh(legGeo, hoodieMat);
-            leg.position.set(s * 0.42, -0.35, 0.42);
+            leg.position.set(s * 0.36, -0.42, 0.4);
             leg.rotation.set(1.35, 0, s * 0.35);
             charGroup.add(leg);
         }
 
-        /* ── laptop: open toward the robot, glowing lid facing camera ── */
+        /* ── laptop: small, low, keyboard visible ── */
         const laptop = new THREE.Group();
-        laptop.position.set(0, -0.12, 1.0);
+        laptop.position.set(0, -0.24, 1.08);
         charGroup.add(laptop);
 
         const lapBase = new THREE.Mesh(
-            track(new THREE.BoxGeometry(1.3, 0.07, 0.75)),
+            track(new THREE.BoxGeometry(1.1, 0.06, 0.62)),
             deviceMat
         );
         laptop.add(lapBase);
 
-        // keyboard keys with random cyan flicker (typing)
-        const keyGeo = track(new THREE.BoxGeometry(0.12, 0.035, 0.1));
+        // keyboard keys with random flicker (typing)
+        const keyGeo = track(new THREE.BoxGeometry(0.11, 0.035, 0.09));
         for (let r = 0; r < 3; r++) {
-            for (let c = 0; c < 7; c++) {
+            for (let c = 0; c < 6; c++) {
                 const key = new THREE.Mesh(keyGeo, keyDimMat);
-                key.position.set(-0.48 + c * 0.16, 0.055, -0.22 + r * 0.15);
+                key.position.set(-0.375 + c * 0.15, 0.05, -0.17 + r * 0.13);
                 laptop.add(key);
                 litKeys.push(key);
             }
         }
 
-        // lid hinged on the camera-side edge, tilted slightly back
+        // low lid tilted back so the keyboard reads from the camera
         const screen = new THREE.Mesh(
-            track(new THREE.BoxGeometry(1.3, 0.82, 0.05)),
+            track(new THREE.BoxGeometry(1.1, 0.5, 0.04)),
             deviceMat
         );
-        screen.position.set(0, 0.38, 0.44);
-        screen.rotation.x = 0.16;
+        screen.position.set(0, 0.2, 0.36);
+        screen.rotation.x = 0.45;
         laptop.add(screen);
 
         // glowing </> logo on the lid back (faces camera)
@@ -377,7 +401,7 @@
             )
         );
         const logo = new THREE.Mesh(
-            track(new THREE.PlaneGeometry(0.6, 0.42)),
+            track(new THREE.PlaneGeometry(0.42, 0.3)),
             track(
                 new THREE.MeshBasicMaterial({
                     map: logoTex,
@@ -386,8 +410,8 @@
                 })
             )
         );
-        logo.position.set(0, 0.385, 0.475);
-        logo.rotation.x = 0.16;
+        logo.position.set(0, 0.21, 0.385);
+        logo.rotation.x = 0.45;
         laptop.add(logo);
 
         // screen light spilling onto the robot's visor/chest
@@ -500,10 +524,78 @@
 
         reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+        /* ── click emote: bounce + antenna flash + heart burst ── */
+        const heartTex = track(
+            new THREE.CanvasTexture(
+                makeCanvas(64, 64, (ctx) => {
+                    ctx.fillStyle = "#f472b6";
+                    ctx.font = "48px serif";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText("♥", 32, 36);
+                })
+            )
+        );
+        doEmote = () => {
+            if (reducedMotion) return;
+            gsap.timeline()
+                .to(charGroup.scale, {
+                    x: 1.08,
+                    y: 0.86,
+                    z: 1.08,
+                    duration: 0.12,
+                    ease: "power2.in",
+                })
+                .to(charGroup.scale, {
+                    x: 1,
+                    y: 1,
+                    z: 1,
+                    duration: 0.7,
+                    ease: "elastic.out(1, 0.35)",
+                });
+            gsap.killTweensOf(antennaTip.scale);
+            gsap.timeline({ onComplete: () => gsapPulse(antennaTip) })
+                .to(antennaTip.scale, { x: 2.4, y: 2.4, z: 2.4, duration: 0.12 })
+                .to(antennaTip.scale, { x: 1, y: 1, z: 1, duration: 0.4 });
+            for (let i = 0; i < 10; i++) {
+                const mat = new THREE.SpriteMaterial({
+                    map: heartTex,
+                    transparent: true,
+                    opacity: 0.9,
+                    depthWrite: false,
+                });
+                const sprite = new THREE.Sprite(mat);
+                sprite.position.set(
+                    (Math.random() - 0.5) * 1.2,
+                    1.5 + Math.random() * 0.9,
+                    0.85
+                );
+                const sc = 0.16 + Math.random() * 0.16;
+                sprite.scale.set(sc, sc, sc);
+                scene.add(sprite);
+                hearts.push({
+                    sprite,
+                    vx: (Math.random() - 0.5) * 0.018,
+                    vy: 0.018 + Math.random() * 0.02,
+                    life: 1,
+                });
+            }
+        };
+
+        // occasional idle emote when nobody has interacted for a while
+        const scheduleIdleEmote = () => {
+            idleEmoteTimer = setTimeout(() => {
+                if (performance.now() - lastPointerT > 4000) doEmote();
+                scheduleIdleEmote();
+            }, 12000 + Math.random() * 8000);
+        };
+
         if (reducedMotion) {
             renderer.render(scene, camera);
             return;
         }
+
+        scheduleIdleEmote();
 
         /* ── blink loop ── */
         const scheduleBlink = () => {
@@ -544,13 +636,49 @@
             // idle float + breathing
             charGroup.position.y = Math.sin(t * 1.1) * 0.12;
             const breath = 1 + Math.sin(t * 1.7) * 0.012;
-            torso.scale.set(breath, 1.12, 0.92 * breath);
+            torso.scale.set(0.82 * breath, 1.25, 0.78 * breath);
 
-            // mouse follow (eased)
+            // mouse follow (eased) + drag-spin inertia
             currentRotX += (targetRotX - currentRotX) * 0.06;
             currentRotY += (targetRotY - currentRotY) * 0.06;
-            charGroup.rotation.y = currentRotY;
+            spinExtra += spinVel;
+            spinVel *= 0.92;
+            if (!dragging) spinExtra *= 0.95;
+            charGroup.rotation.y = currentRotY + spinExtra;
             charGroup.rotation.x = currentRotX;
+
+            // head tilt + eyes track the cursor; wander when idle
+            const idle = performance.now() - lastPointerT > 3000;
+            let ex = targetRotY / 0.45;
+            let ey = -targetRotX / 0.18;
+            if (idle) {
+                ex = Math.sin(t * 0.5) * 0.7;
+                ey = Math.sin(t * 0.33 + 1) * 0.35;
+            }
+            if (headGroup) {
+                headGroup.rotation.y += (ex * 0.35 - headGroup.rotation.y) * 0.08;
+                headGroup.rotation.x += (ey * 0.12 - headGroup.rotation.x) * 0.08;
+            }
+            for (const eye of eyes) {
+                eye.position.x +=
+                    (eye.userData.baseX + ex * 0.05 - eye.position.x) * 0.15;
+                eye.position.y +=
+                    (eye.userData.baseY + ey * 0.04 - eye.position.y) * 0.15;
+            }
+
+            // heart burst particles
+            for (let i = hearts.length - 1; i >= 0; i--) {
+                const h = hearts[i];
+                h.sprite.position.x += h.vx;
+                h.sprite.position.y += h.vy;
+                h.life -= 0.012;
+                h.sprite.material.opacity = Math.max(h.life, 0) * 0.9;
+                if (h.life <= 0) {
+                    scene.remove(h.sprite);
+                    h.sprite.material.dispose();
+                    hearts.splice(i, 1);
+                }
+            }
 
             // panels bob + slight parallax counter-rotation
             if (panelsGroup) {
@@ -598,6 +726,15 @@
         animate();
     }
 
+    function handlePointerDown(e) {
+        if (reducedMotion) return;
+        dragging = true;
+        dragMoved = 0;
+        lastDragX = e.clientX;
+        lastPointerT = performance.now();
+        container?.setPointerCapture?.(e.pointerId);
+    }
+
     function handlePointerMove(e) {
         if (!container) return;
         const rect = container.getBoundingClientRect();
@@ -606,11 +743,30 @@
         targetRotY = nx * 0.45;
         targetRotX = -ny * 0.18;
         if (pointerNDC) pointerNDC.set(nx, -ny);
+        lastPointerT = performance.now();
+
+        if (dragging) {
+            const dx = e.clientX - lastDragX;
+            lastDragX = e.clientX;
+            dragMoved += Math.abs(dx);
+            spinVel += dx * 0.0016;
+            if (dragMoved > 6) container.style.cursor = "grabbing";
+        }
+    }
+
+    function handlePointerUp() {
+        if (!dragging) return;
+        dragging = false;
+        if (container) container.style.cursor = "default";
+        // small movement = a tap/click → she reacts
+        if (dragMoved < 6) doEmote?.();
     }
 
     function handlePointerLeave() {
         targetRotX = 0;
         targetRotY = 0;
+        dragging = false;
+        if (container) container.style.cursor = "default";
         if (pointerNDC) pointerNDC.set(-9, -9);
     }
 
@@ -628,6 +784,20 @@
         if (!browser) return;
         init();
         window.addEventListener("resize", resize);
+
+        // speech bubble cycle (hero only)
+        if (size !== "sm") {
+            const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            if (!reduced) {
+                speechTimer = setInterval(() => {
+                    speechVisible = false;
+                    setTimeout(() => {
+                        speechIdx = (speechIdx + 1) % speechLines.length;
+                        speechVisible = true;
+                    }, 350);
+                }, 4500);
+            }
+        }
     });
 
     onDestroy(() => {
@@ -635,7 +805,14 @@
         cancelAnimationFrame(rafId);
         clearTimeout(blinkTimer);
         clearTimeout(keyTimer);
+        clearTimeout(idleEmoteTimer);
+        clearInterval(speechTimer);
         window.removeEventListener("resize", resize);
+        for (const h of hearts) {
+            scene?.remove(h.sprite);
+            h.sprite.material.dispose();
+        }
+        hearts = [];
         for (const item of disposables) item.dispose?.();
         if (renderer) {
             renderer.dispose();
@@ -644,10 +821,35 @@
     });
 </script>
 
-<div
-    bind:this={container}
-    class="w-full h-full"
-    on:pointermove={handlePointerMove}
-    on:pointerleave={handlePointerLeave}
-    role="presentation"
-/>
+<div class="relative w-full h-full">
+    <div
+        bind:this={container}
+        class="w-full h-full"
+        style="touch-action: pan-y;"
+        on:pointerdown={handlePointerDown}
+        on:pointermove={handlePointerMove}
+        on:pointerup={handlePointerUp}
+        on:pointercancel={handlePointerLeave}
+        on:pointerleave={handlePointerLeave}
+        role="presentation"
+    />
+
+    {#if size !== "sm"}
+        <!-- holo speech bubble -->
+        <div
+            class={"absolute top-[7%] left-[58%] sm:left-[60%] pointer-events-none duration-300 " +
+                (speechVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1")}
+            aria-hidden="true"
+        >
+            <div
+                class="relative px-3 py-1.5 rounded-lg rounded-bl-none border border-neon-cyan/50 bg-noir-900/80 backdrop-blur-sm text-[10px] sm:text-xs text-neon-cyan-bright whitespace-nowrap neon-glow-cyan"
+            >
+                {speechLines[speechIdx]}
+                <span
+                    class="absolute -bottom-[5px] left-0 w-2.5 h-2.5 bg-noir-900/80 border-b border-l border-neon-cyan/50"
+                    style="clip-path: polygon(0 0, 100% 0, 0 100%);"
+                />
+            </div>
+        </div>
+    {/if}
+</div>
