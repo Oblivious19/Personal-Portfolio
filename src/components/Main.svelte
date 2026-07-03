@@ -124,6 +124,13 @@
                     </span>
                 </div>
 
+                <p
+                    class="text-xs sm:text-sm tracking-[0.2em] uppercase text-slate-400 mx-auto lg:mx-0"
+                >
+                    Research Intern <span class="text-neon-violet">@ IIT Ropar</span> · Full-Stack
+                    Developer · MERN + AI
+                </p>
+
                 <h2
                     class="font-semibold text-4xl sm:text-5xl md:text-6xl lg:text-[3.6rem] leading-tight"
                 >
@@ -142,6 +149,17 @@
                     payments today.
                 </p>
 
+                <a
+                    href="https://query-2map-frontend-cm4w.onrender.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group inline-flex items-center gap-2.5 mx-auto lg:mx-0 w-fit px-4 py-2 rounded-full border border-violet-500/40 bg-violet-950/30 text-sm text-violet-200 hover:border-neon-violet hover:neon-glow-violet duration-200"
+                >
+                    <span class="status-pulse inline-block w-1.5 h-1.5 rounded-full bg-neon-violet" />
+                    Built @ IIT Ropar: <span class="text-neon-cyan">Query2Map</span> — try it live
+                    <span class="group-hover:translate-x-0.5 duration-200">→</span>
+                </a>
+
                 <div class="flex flex-col sm:flex-row items-center gap-4 mx-auto lg:mx-0">
                     <a
                         href="#projects"
@@ -157,6 +175,43 @@
                         class="text-base sm:text-lg poppins px-6 py-3 inline-block border border-solid border-neon-cyan/50 text-neon-cyan hover:border-neon-cyan hover:neon-glow-cyan hover:bg-neon-cyan/10 duration-200"
                     >
                                     Open_channel() →
+                    </a>
+                </div>
+
+                <div class="flex items-center gap-3 mx-auto lg:mx-0">
+                    <a
+                        href="https://github.com/Oblivious19"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="GitHub"
+                        class="w-10 h-10 rounded-full border border-slate-700 grid place-items-center text-slate-400 hover:text-neon-cyan hover:border-neon-cyan/60 duration-200"
+                    >
+                        <i class="fab fa-github" />
+                    </a>
+                    <a
+                        href="https://www.linkedin.com/in/shreya-ojha-a9548a218/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="LinkedIn"
+                        class="w-10 h-10 rounded-full border border-slate-700 grid place-items-center text-slate-400 hover:text-neon-cyan hover:border-neon-cyan/60 duration-200"
+                    >
+                        <i class="fab fa-linkedin-in" />
+                    </a>
+                    <a
+                        href="https://x.com/Oblivious9021"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="X"
+                        class="w-10 h-10 rounded-full border border-slate-700 grid place-items-center text-slate-400 hover:text-neon-cyan hover:border-neon-cyan/60 duration-200"
+                    >
+                        <i class="fab fa-x-twitter" />
+                    </a>
+                    <a
+                        href="mailto:shreyaojha2@gmail.com"
+                        aria-label="Email"
+                        class="w-10 h-10 rounded-full border border-slate-700 grid place-items-center text-slate-400 hover:text-neon-cyan hover:border-neon-cyan/60 duration-200"
+                    >
+                        <i class="fa-solid fa-envelope" />
                     </a>
                 </div>
             </div>
