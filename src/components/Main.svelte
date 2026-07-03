@@ -135,10 +135,10 @@
                 </h2>
 
                 <p class="text-base sm:text-lg md:text-xl text-slate-400 max-w-xl mx-auto lg:mx-0">
-                    I don't build demos — I ship to production: an
+                    I ship production software, not just demos — an
                     <span class="text-neon-violet">AI learning platform</span> built at IIT Ropar,
-                    a <span class="text-neon-cyan">live store</span> processing real payments,
-                    and APIs that don't fall over.
+                    and a <span class="text-neon-cyan">live e-commerce store</span> processing
+                    real payments at scale.
                 </p>
 
                 <div class="flex flex-col sm:flex-row items-center gap-4 mx-auto lg:mx-0">
@@ -153,7 +153,7 @@
                     </a>
                     <a
                         href="#footer"
-                        class="text-sm sm:text-base text-slate-400 hover:text-neon-cyan duration-200"
+                        class="text-base sm:text-lg poppins px-6 py-3 inline-block border border-solid border-neon-cyan/50 text-neon-cyan hover:border-neon-cyan hover:neon-glow-cyan hover:bg-neon-cyan/10 duration-200"
                     >
                         open_channel() →
                     </a>
