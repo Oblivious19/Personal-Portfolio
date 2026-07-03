@@ -1,6 +1,9 @@
 <script>
     export let step;
 
+    // mobile: details collapsed until tapped; desktop always expanded via sm:block
+    let expanded = false;
+
     const accents = {
         violet: {
             border: "border-violet-500/25 group-hover:border-violet-400/70",
@@ -59,71 +62,89 @@
         {/if}
     </div>
 
-    <div class="flex items-start gap-4">
+    <button
+        type="button"
+        class="flex items-start gap-4 w-full text-left sm:pointer-events-none sm:cursor-default"
+        on:click={() => (expanded = !expanded)}
+        aria-expanded={expanded}
+    >
         <div
             class={"grid place-items-center w-14 h-14 sm:w-16 sm:h-16 bg-noir-800 border border-solid border-slate-800 text-2xl sm:text-3xl shrink-0 duration-300 group-hover:scale-110 " +
                 accent.icon}
         >
             <i class={step.icon} />
         </div>
-        <div class="flex flex-col gap-1 text-left">
+        <div class="flex flex-col gap-1 text-left flex-1">
             <h3 class="font-semibold text-xl sm:text-2xl poppins">{step.name}</h3>
             {#if step.subtitle}
                 <p class="text-sm opacity-60">{step.subtitle}</p>
             {/if}
         </div>
-    </div>
+        <span
+            class={"sm:hidden text-xs mt-2 duration-200 " +
+                accent.icon +
+                (expanded ? " rotate-180" : "")}
+        >
+            <i class="fa-solid fa-chevron-down" />
+        </span>
+    </button>
 
-    <div class="text-left text-sm sm:text-base leading-relaxed opacity-90">
-        <slot />
-    </div>
+    <div class={(expanded ? "flex" : "hidden") + " sm:flex flex-col gap-5 flex-1"}>
+        <div class="text-left text-sm sm:text-base leading-relaxed opacity-90">
+            <slot />
+        </div>
 
-    {#if step.stats?.length}
-        <div class="flex flex-wrap gap-2">
-            {#each step.stats as stat}
-                <span
-                    class={"px-3 py-1 text-xs sm:text-sm font-medium bg-noir-800 border border-solid border-slate-800 " +
-                        accent.stat}
+        {#if step.stats?.length}
+            <div class="flex flex-wrap gap-2">
+                {#each step.stats as stat}
+                    <span
+                        class={"px-3 py-1 text-xs sm:text-sm font-medium bg-noir-800 border border-solid border-slate-800 " +
+                            accent.stat}
+                    >
+                        {stat}
+                    </span>
+                {/each}
+            </div>
+        {/if}
+
+        {#if step.tags?.length}
+            <div class="flex flex-wrap gap-2">
+                {#each step.tags as tag}
+                    <span class={"px-2.5 py-0.5 text-xs border border-solid " + accent.tag}>
+                        {tag}
+                    </span>
+                {/each}
+            </div>
+        {/if}
+
+        <div class="flex flex-wrap gap-3 mt-auto pt-2">
+            {#if step.liveUrl}
+                <a
+                    href={step.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class={"inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white duration-200 " +
+                        accent.btn}
                 >
-                    {stat}
-                </span>
-            {/each}
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs" />
+                    Live Demo
+                </a>
+            {/if}
+            {#if step.githubUrl}
+                <a
+                    href={step.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium border border-solid border-slate-700 hover:border-neon-cyan/60 hover:text-neon-cyan duration-200"
+                >
+                    <i class="fab fa-github" />
+                    Source
+                </a>
+            {/if}
         </div>
-    {/if}
-
-    {#if step.tags?.length}
-        <div class="flex flex-wrap gap-2">
-            {#each step.tags as tag}
-                <span class={"px-2.5 py-0.5 text-xs border border-solid " + accent.tag}>
-                    {tag}
-                </span>
-            {/each}
-        </div>
-    {/if}
-
-    <div class="flex flex-wrap gap-3 mt-auto pt-2">
-        {#if step.liveUrl}
-            <a
-                href={step.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class={"inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white duration-200 " +
-                    accent.btn}
-            >
-                <i class="fa-solid fa-arrow-up-right-from-square text-xs" />
-                Live Demo
-            </a>
-        {/if}
-        {#if step.githubUrl}
-            <a
-                href={step.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium border border-solid border-slate-700 hover:border-neon-cyan/60 hover:text-neon-cyan duration-200"
-            >
-                <i class="fab fa-github" />
-                Source
-            </a>
-        {/if}
     </div>
+
+    <p class={"sm:hidden text-[10px] tracking-widest opacity-40 " + (expanded ? "hidden" : "")}>
+        [ tap for details ]
+    </p>
 </article>

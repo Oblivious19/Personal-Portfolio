@@ -59,12 +59,19 @@
             bootDone = true;
             return;
         }
-        // wait for the entry loader's split reveal before booting the hero
+        // wait for the entry loader's split reveal before booting the hero;
+        // on mobile the boot log is hidden, so reveal the hero right away
+        const isMobile = window.innerWidth < 640;
         let started = false;
         unsubLoader = loaderDone.subscribe((done) => {
             if (done && !started) {
                 started = true;
-                typeBoot();
+                if (isMobile) {
+                    bootDone = true;
+                    revealHero();
+                } else {
+                    typeBoot();
+                }
             }
         });
     });
@@ -82,9 +89,9 @@
         class="relative grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-6 py-8 sm:py-12 lg:py-16 items-center"
     >
         <div class="flex flex-col lg:justify-center text-center lg:text-left gap-6 md:gap-8 z-10">
-            <!-- boot sequence -->
+            <!-- boot sequence (desktop only — hidden on mobile to reduce clutter) -->
             <div
-                class="text-left text-xs sm:text-sm text-neon-cyan/70 min-h-[60px] sm:min-h-[66px] mx-auto lg:mx-0 w-fit"
+                class="hidden sm:block text-left text-xs sm:text-sm text-neon-cyan/70 sm:min-h-[66px] mx-auto lg:mx-0 w-fit"
                 aria-hidden="true"
             >
                 {#each typedLines as line}

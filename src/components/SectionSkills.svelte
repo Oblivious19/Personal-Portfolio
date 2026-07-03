@@ -6,6 +6,11 @@
 
     let sectionEl;
     let triggers = [];
+    let expandedMod = null;
+
+    function toggleMod(id) {
+        expandedMod = expandedMod === id ? null : id;
+    }
 
     const modules = [
         {
@@ -59,12 +64,15 @@
     onMount(() => {
         if (!browser) return;
         const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        // on mobile the skill lists are collapsed, so scroll-triggered bar
+        // animations would misfire — set widths directly instead
+        const isMobile = window.innerWidth < 640;
 
         gsap.registerPlugin(ScrollTrigger);
 
         sectionEl.querySelectorAll(".diag-bar-fill").forEach((bar) => {
             const level = bar.dataset.level;
-            if (reduced) {
+            if (reduced || isMobile) {
                 bar.style.width = `${level}%`;
                 return;
             }
@@ -127,11 +135,24 @@
                     <span class="text-[10px] tracking-[0.25em] text-slate-500">{mod.id}</span>
                     <span class="status-pulse inline-block w-1.5 h-1.5 rounded-full bg-emerald-400" />
                 </div>
-                <div class="flex items-center gap-3">
+                <button
+                    type="button"
+                    class="flex items-center gap-3 w-full text-left sm:pointer-events-none sm:cursor-default"
+                    on:click={() => toggleMod(mod.id)}
+                    aria-expanded={expandedMod === mod.id}
+                >
                     <i class={mod.icon + " text-neon-violet"} />
-                    <h4 class="text-lg sm:text-xl font-medium poppins">{mod.name}</h4>
-                </div>
-                <div class="flex flex-col gap-3">
+                    <h4 class="text-lg sm:text-xl font-medium poppins flex-1">{mod.name}</h4>
+                    <span
+                        class={"sm:hidden text-xs text-neon-cyan/70 duration-200 " +
+                            (expandedMod === mod.id ? "rotate-180" : "")}
+                    >
+                        <i class="fa-solid fa-chevron-down" />
+                    </span>
+                </button>
+                <div
+                    class={(expandedMod === mod.id ? "flex" : "hidden") + " sm:flex flex-col gap-3"}
+                >
                     {#each mod.skills as skill}
                         <div class="flex flex-col gap-1.5">
                             <div class="flex justify-between text-xs sm:text-sm">
