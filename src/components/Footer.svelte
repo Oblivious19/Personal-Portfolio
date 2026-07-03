@@ -1,98 +1,112 @@
 <script>
-    import Mascot3D from "./Mascot3D.svelte";
-
-    const channels = [
+    const socials = [
+        { label: "GitHub", href: "https://github.com/Oblivious19", icon: "fab fa-github" },
         {
-            label: "email",
-            value: "shreyaojha2@gmail.com",
-            href: "mailto:shreyaojha2@gmail.com",
-            icon: "fa-solid fa-envelope",
-        },
-        {
-            label: "github",
-            value: "Oblivious19",
-            href: "https://github.com/Oblivious19",
-            icon: "fab fa-github",
-        },
-        {
-            label: "linkedin",
-            value: "shreya-ojha",
+            label: "LinkedIn",
             href: "https://www.linkedin.com/in/shreya-ojha-a9548a218/",
-            icon: "fab fa-linkedin",
+            icon: "fab fa-linkedin-in",
         },
-        {
-            label: "x",
-            value: "@Oblivious9021",
-            href: "https://x.com/Oblivious9021",
-            icon: "fab fa-x-twitter",
-        },
-        {
-            label: "resume",
-            value: "download.pdf",
-            href: "/Shreya_Ojha_Resume.pdf",
-            icon: "fa-solid fa-file-arrow-down",
-        },
+        { label: "X", href: "https://x.com/Oblivious9021", icon: "fab fa-x-twitter" },
+    ];
+
+    const nav = [
+        { label: "projects", href: "/#projects" },
+        { label: "journey", href: "/#experience" },
+        { label: "skills", href: "/#skills" },
+        { label: "blog", href: "/blog/iit-ropar" },
     ];
 </script>
 
 <footer
-    class="py-20 sm:py-28 bg-noir-950 border-t border-solid border-violet-950 flex flex-col gap-10 justify-center items-center px-4"
     id="footer"
+    class="relative border-t border-solid border-violet-950 bg-gradient-to-b from-noir-950 via-noir-900 to-noir-950 overflow-hidden"
 >
-    <div class="flex flex-col gap-3 text-center">
-        <p class="text-xs sm:text-sm tracking-[0.3em] text-neon-cyan/70 uppercase">
-            &gt; open_channel --secure
-        </p>
-        <h3 class="font-semibold text-3xl sm:text-4xl md:text-5xl">
-            <span class="text-slate-600">//</span> let's
-            <span class="poppins hero-gradient-text">build</span> something
-        </h3>
-        <p class="text-slate-400 max-w-md mx-auto">
-            Founder with an idea? Team that ships? The channel is open — response time is fast.
-        </p>
-    </div>
-
+    <!-- ambient glow -->
     <div
-        class="hud-frame relative w-full max-w-[560px] border border-solid border-violet-500/25 bg-noir-900/80 p-6 sm:p-8 flex flex-col gap-4"
-    >
-        <div class="hud-corners absolute inset-0 pointer-events-none" />
-        <div class="flex items-center gap-1.5 border-b border-violet-500/20 pb-3 -mx-2 px-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
-            <span class="w-2.5 h-2.5 rounded-full bg-amber-400/80" />
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400/80" />
-            <span class="ml-2 text-[10px] sm:text-xs opacity-50">shreya@mumbai ~ contact</span>
+        class="absolute inset-0 pointer-events-none"
+        style="background: radial-gradient(ellipse 70% 55% at 50% 110%, rgba(139, 92, 246, 0.16) 0%, rgba(244, 114, 182, 0.06) 45%, transparent 75%);"
+        aria-hidden="true"
+    />
+
+    <div class="relative max-w-[1100px] mx-auto px-6 sm:px-10 py-20 sm:py-28 flex flex-col gap-14">
+        <!-- big invitation -->
+        <div class="flex flex-col gap-5 text-center sm:text-left">
+            <p class="text-xs sm:text-sm tracking-[0.3em] uppercase text-neon-cyan/70">
+                // next project could be yours
+            </p>
+            <h3
+                class="poppins font-semibold text-4xl sm:text-6xl md:text-7xl leading-[1.05] tracking-tight"
+            >
+                Have an idea?
+                <br />
+                <span class="hero-gradient-text">Let's make it real.</span>
+            </h3>
         </div>
 
-        {#each channels as ch}
-            <a
-                href={ch.href}
-                target={ch.href.startsWith("mailto") ? undefined : "_blank"}
-                rel="noopener noreferrer"
-                class="group flex items-center gap-3 text-sm sm:text-base hover:translate-x-1 duration-200"
+        <!-- giant email — the one action that matters -->
+        <a
+            href="mailto:shreyaojha2@gmail.com"
+            class="group w-fit mx-auto sm:mx-0 flex flex-wrap items-center gap-3 sm:gap-5"
+        >
+            <span
+                class="text-lg sm:text-3xl md:text-4xl text-slate-200 group-hover:text-neon-cyan duration-300 border-b border-slate-700 group-hover:border-neon-cyan pb-1.5 break-all"
             >
-                <span class="text-neon-cyan/70 w-24 shrink-0">[{ch.label}]</span>
-                <i class={ch.icon + " text-neon-violet w-5 text-center"} />
-                <span class="text-slate-300 group-hover:text-neon-cyan duration-200"
-                    >{ch.value}</span
+                shreyaojha2@gmail.com
+            </span>
+            <span
+                class="grid place-items-center w-11 h-11 sm:w-14 sm:h-14 rounded-full border border-neon-cyan/50 text-neon-cyan group-hover:bg-neon-cyan/10 group-hover:neon-glow-cyan group-hover:-rotate-45 duration-300 shrink-0"
+            >
+                <i class="fa-solid fa-arrow-right" />
+            </span>
+        </a>
+
+        <!-- links row -->
+        <div
+            class="flex flex-col sm:flex-row items-center sm:items-end justify-between gap-10 pt-6 border-t border-solid border-violet-500/15"
+        >
+            <nav class="flex flex-wrap justify-center gap-x-7 gap-y-3 text-sm">
+                {#each nav as item}
+                    <a
+                        href={item.href}
+                        class="text-slate-400 hover:text-neon-cyan duration-200"
+                    >
+                        /{item.label}
+                    </a>
+                {/each}
+                <a
+                    href="/Shreya_Ojha_Resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-neon-violet hover:text-neon-violet-bright duration-200"
                 >
-                <i
-                    class="fa-solid fa-arrow-right text-[10px] opacity-0 group-hover:opacity-70 duration-200 text-neon-cyan"
-                />
-            </a>
-        {/each}
+                    /resume.pdf ↓
+                </a>
+            </nav>
 
-        <p class="text-xs text-slate-600 pt-2 border-t border-violet-500/10">
-            loc: Mumbai, India · timezone: IST (UTC+5:30)
-        </p>
+            <div class="flex items-center gap-3">
+                {#each socials as s}
+                    <a
+                        href={s.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={s.label}
+                        class="w-11 h-11 rounded-full border border-slate-700 grid place-items-center text-slate-400 hover:text-neon-cyan hover:border-neon-cyan/60 hover:neon-glow-cyan duration-200"
+                    >
+                        <i class={s.icon} />
+                    </a>
+                {/each}
+            </div>
+        </div>
+
+        <!-- bottom bar -->
+        <div
+            class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600"
+        >
+            <p>© {new Date().getFullYear()} Shreya Ojha · Mumbai, India · IST (UTC+5:30)</p>
+            <p>
+                built with <span class="text-neon-violet/70">SvelteKit + Three.js</span> ·
+                <span class="text-neon-cyan/60">no templates were harmed</span>
+            </p>
+        </div>
     </div>
-
-    <!-- mascot cameo -->
-    <div class="w-[180px] h-[180px] opacity-80" aria-hidden="true">
-        <Mascot3D size="sm" />
-    </div>
-
-    <p class="text-xs text-slate-600">
-        © {new Date().getFullYear()} Shreya Ojha · built with SvelteKit + Three.js ·
-        <span class="text-neon-violet/60">no templates were harmed</span>
-    </p>
 </footer>

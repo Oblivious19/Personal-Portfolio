@@ -70,6 +70,25 @@
                 actually look at them.
             </p>
 
+            <figure class="flex flex-col gap-3 my-2">
+                <div
+                    class="hud-frame relative p-2 sm:p-3 border border-solid border-violet-500/25 bg-noir-900/60"
+                >
+                    <div class="hud-corners absolute inset-0 pointer-events-none" />
+                    <img
+                        src="/images/blog/nptel-certificate.png"
+                        alt="NPTEL Certificate of Internship presented to Ms. Shreya Ojha for completing the internship at IIT Ropar under Prof. Sudarshan Iyengar, May 19 – July 13, 2025"
+                        width="2000"
+                        height="1414"
+                        loading="lazy"
+                        class="w-full h-auto"
+                    />
+                </div>
+                <figcaption class="text-xs sm:text-sm text-slate-500 text-center">
+                    [proof.png] — NPTEL internship certificate · IIT Ropar · May 19 – July 13, 2025
+                </figcaption>
+            </figure>
+
             <h2 class="text-xl sm:text-2xl font-medium poppins text-slate-100 mt-2">
                 <span class="text-neon-cyan">##</span> What I built: Query2Map
             </h2>
