@@ -4,6 +4,38 @@
     import gsap from "gsap";
 
     let article;
+    let lightbox = null;
+
+    const certs = [
+        {
+            src: "/images/blog/nptel-cert-cloud-computing.png",
+            alt: "NPTEL Elite certificate: Cloud Computing, IIT Kharagpur, consolidated score 84%, Topper 5% badge, Jul–Oct 2024",
+            id: "cert-01",
+            title: "Cloud Computing",
+            detail: "IIT Kharagpur · 84%",
+            badge: "Elite + Top 5%",
+        },
+        {
+            src: "/images/blog/nptel-cert-computer-networks.png",
+            alt: "NPTEL Elite certificate: Computer Networks and Internet Protocol, IIT Kharagpur, consolidated score 80%, Jan–Apr 2024",
+            id: "cert-02",
+            title: "Computer Networks & IP",
+            detail: "IIT Kharagpur · 80%",
+            badge: "Elite",
+        },
+        {
+            src: "/images/blog/nptel-cert-operating-systems.png",
+            alt: "NPTEL Elite certificate: Introduction to Operating Systems, IIT Madras, consolidated score 60%, Jul–Sep 2024",
+            id: "cert-03",
+            title: "Intro to Operating Systems",
+            detail: "IIT Madras",
+            badge: "Elite",
+        },
+    ];
+
+    function handleKeydown(e) {
+        if (e.key === "Escape") lightbox = null;
+    }
 
     onMount(() => {
         if (!browser) return;
@@ -181,84 +213,52 @@
                 </figcaption>
             </figure>
 
+            <a
+                href="https://query-2map-frontend-cm4w.onrender.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group inline-flex items-center gap-2.5 w-fit px-5 py-2.5 rounded-full border border-violet-500/40 bg-violet-950/30 text-sm sm:text-base text-violet-200 hover:border-neon-violet hover:neon-glow-violet duration-200"
+            >
+                <span class="status-pulse inline-block w-1.5 h-1.5 rounded-full bg-neon-violet" />
+                Try Query2Map live
+                <span class="group-hover:translate-x-0.5 duration-200">→</span>
+            </a>
+
             <h2 class="text-xl sm:text-2xl font-medium poppins text-slate-100 mt-2">
                 <span class="text-neon-cyan">##</span> NPTEL Certifications
             </h2>
             <p>
-                The coursework that got me here — all Elite-certified, proctored, and verifiable:
+                The coursework that got me here — all Elite-certified, proctored, and verifiable.
+                Click any certificate to zoom.
             </p>
 
-            <figure class="flex flex-col gap-3 my-2">
-                <div
-                    class="hud-frame relative p-2 sm:p-3 border border-solid border-violet-500/25 bg-noir-900/60"
-                >
-                    <div class="hud-corners absolute inset-0 pointer-events-none" />
-                    <img
-                        src="/images/blog/nptel-cert-cloud-computing.png"
-                        alt="NPTEL Elite certificate: Cloud Computing, IIT Kharagpur, consolidated score 84%, Topper 5% badge, Jul–Oct 2024"
-                        width="1600"
-                        height="1146"
-                        loading="lazy"
-                        class="w-full h-auto"
-                    />
-                </div>
-                <figcaption class="text-xs sm:text-sm text-slate-500 text-center">
-                    [cert-01] — Cloud Computing · IIT Kharagpur · 84% ·
-                    <span class="text-neon-violet">Elite + Top 5%</span>
-                </figcaption>
-            </figure>
-
-            <figure class="flex flex-col gap-3 my-2">
-                <div
-                    class="hud-frame relative p-2 sm:p-3 border border-solid border-violet-500/25 bg-noir-900/60"
-                >
-                    <div class="hud-corners absolute inset-0 pointer-events-none" />
-                    <img
-                        src="/images/blog/nptel-cert-computer-networks.png"
-                        alt="NPTEL Elite certificate: Computer Networks and Internet Protocol, IIT Kharagpur, consolidated score 80%, Jan–Apr 2024"
-                        width="1600"
-                        height="1148"
-                        loading="lazy"
-                        class="w-full h-auto"
-                    />
-                </div>
-                <figcaption class="text-xs sm:text-sm text-slate-500 text-center">
-                    [cert-02] — Computer Networks & Internet Protocol · IIT Kharagpur · 80% ·
-                    <span class="text-neon-violet">Elite</span>
-                </figcaption>
-            </figure>
-
-            <figure class="flex flex-col gap-3 my-2">
-                <div
-                    class="hud-frame relative p-2 sm:p-3 border border-solid border-violet-500/25 bg-noir-900/60"
-                >
-                    <div class="hud-corners absolute inset-0 pointer-events-none" />
-                    <img
-                        src="/images/blog/nptel-cert-operating-systems.png"
-                        alt="NPTEL Elite certificate: Introduction to Operating Systems, IIT Madras, consolidated score 60%, Jul–Sep 2024"
-                        width="1600"
-                        height="1146"
-                        loading="lazy"
-                        class="w-full h-auto"
-                    />
-                </div>
-                <figcaption class="text-xs sm:text-sm text-slate-500 text-center">
-                    [cert-03] — Introduction to Operating Systems · IIT Madras ·
-                    <span class="text-neon-violet">Elite</span>
-                </figcaption>
-            </figure>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-2">
+                {#each certs as cert}
+                    <figure class="flex flex-col gap-2">
+                        <button
+                            type="button"
+                            on:click={() => (lightbox = cert)}
+                            class="hud-frame relative p-1.5 border border-solid border-violet-500/25 bg-noir-900/60 duration-300 hover:scale-[1.06] hover:border-neon-violet/60 hover:neon-glow-violet cursor-zoom-in"
+                            aria-label={"Zoom " + cert.title + " certificate"}
+                        >
+                            <div class="hud-corners absolute inset-0 pointer-events-none" />
+                            <img
+                                src={cert.src}
+                                alt={cert.alt}
+                                width="1600"
+                                height="1146"
+                                loading="lazy"
+                                class="w-full h-auto"
+                            />
+                        </button>
+                        <figcaption class="text-[11px] sm:text-xs text-slate-500 text-center">
+                            [{cert.id}] {cert.title} · {cert.detail} ·
+                            <span class="text-neon-violet">{cert.badge}</span>
+                        </figcaption>
+                    </figure>
+                {/each}
+            </div>
         </div>
-
-        <a
-            href="https://query-2map-frontend-cm4w.onrender.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group inline-flex items-center gap-2.5 w-fit px-5 py-2.5 rounded-full border border-violet-500/40 bg-violet-950/30 text-sm sm:text-base text-violet-200 hover:border-neon-violet hover:neon-glow-violet duration-200"
-        >
-            <span class="status-pulse inline-block w-1.5 h-1.5 rounded-full bg-neon-violet" />
-            Try Query2Map live
-            <span class="group-hover:translate-x-0.5 duration-200">→</span>
-        </a>
 
         <div class="glitch-divider w-full" aria-hidden="true" />
 
@@ -270,3 +270,30 @@
         </p>
     </div>
 </main>
+
+<svelte:window on:keydown={handleKeydown} />
+
+{#if lightbox}
+    <div
+        class="fixed inset-0 z-[90] bg-black/85 backdrop-blur-sm grid place-items-center p-4 sm:p-10 cursor-zoom-out"
+        on:click={() => (lightbox = null)}
+        on:keydown={handleKeydown}
+        role="dialog"
+        aria-modal="true"
+        aria-label={lightbox.title + " certificate, enlarged. Press Escape or click to close."}
+        tabindex="-1"
+    >
+        <div class="flex flex-col gap-3 items-center max-w-[1100px] w-full">
+            <img
+                src={lightbox.src}
+                alt={lightbox.alt}
+                class="w-full h-auto max-h-[85vh] object-contain border border-solid border-violet-500/40 neon-glow-violet"
+            />
+            <p class="text-xs sm:text-sm text-slate-400">
+                {lightbox.title} · {lightbox.detail} ·
+                <span class="text-neon-violet">{lightbox.badge}</span>
+                <span class="text-slate-600 pl-2">[ esc / click to close ]</span>
+            </p>
+        </div>
+    </div>
+{/if}
