@@ -84,7 +84,12 @@
 </script>
 
 <main class="flex flex-col flex-1 p-4">
-    <section id="introPage" class="relative py-8 sm:py-12 lg:py-16">
+    <!-- full-bleed hero: escapes the page container/padding and tucks under the sticky header -->
+    <section
+        id="introPage"
+        class="relative -mt-20"
+        style="margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);"
+    >
         <HeroInteractive>
         <div class="flex flex-col lg:justify-center text-center lg:text-left gap-6 md:gap-8">
             <!-- boot sequence (desktop only — hidden on mobile to reduce clutter) -->

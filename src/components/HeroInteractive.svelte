@@ -154,13 +154,11 @@
 
 <div
     bind:this={stage}
-    class="hud-frame relative w-full overflow-hidden bg-noir-700/40"
+    class="relative w-full overflow-hidden bg-noir-700/40"
     on:mousemove={handleMouseMove}
     on:mouseleave={handleMouseLeave}
     role="presentation"
 >
-    <div class="hud-corners absolute inset-0 pointer-events-none" />
-
     <!-- ambient layers (full hero width) -->
     <div class="hero-gradient absolute inset-0 pointer-events-none" />
     <div class="hero-grid absolute inset-0 pointer-events-none opacity-40" />
@@ -175,15 +173,15 @@
         style="left: {glowX}%; top: {glowY}%;"
     />
 
-    <!-- HUD status readouts (frame the whole hero) -->
+    <!-- HUD status readouts (frame the whole hero, below the header) -->
     <div
-        class="absolute top-3 left-4 z-[6] flex items-center gap-2 text-[10px] sm:text-xs tracking-widest text-neon-cyan/80 pointer-events-none"
+        class="absolute top-16 sm:top-20 left-4 z-[6] flex items-center gap-2 text-[10px] sm:text-xs tracking-widest text-neon-cyan/80 pointer-events-none"
     >
         <span class="status-pulse inline-block w-1.5 h-1.5 rounded-full bg-emerald-400" />
         SYS.ONLINE
     </div>
     <div
-        class="absolute top-3 right-4 z-[6] text-[10px] sm:text-xs tracking-widest text-slate-500 pointer-events-none"
+        class="absolute top-16 sm:top-20 right-4 z-[6] text-[10px] sm:text-xs tracking-widest text-slate-500 pointer-events-none"
     >
         LOC: MUMBAI · {clock} IST
     </div>
@@ -198,16 +196,18 @@
         v2.0
     </div>
 
-    <!-- content: hero text (slot) + mascot -->
+    <!-- content: hero text (slot) + mascot, re-centered inside the full-bleed stage -->
     <div
-        class="relative grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-6 items-center p-6 sm:p-10 lg:p-12"
+        class="relative max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-6 items-center px-6 sm:px-10 lg:px-12 pt-24 sm:pt-28 pb-12 lg:pb-16"
     >
         <div class="relative z-10">
             <slot />
         </div>
 
         <div class="relative z-[5] min-h-[380px] sm:min-h-[480px] lg:min-h-[560px]">
-            <Mascot3D />
+            <div class="absolute inset-0">
+                <Mascot3D />
+            </div>
         </div>
     </div>
 </div>
