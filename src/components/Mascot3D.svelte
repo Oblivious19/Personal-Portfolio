@@ -386,22 +386,22 @@
         screen.rotation.x = 0.45;
         laptop.add(screen);
 
-        // glowing </> logo on the lid back (faces camera)
+        // glowing "oblivious" wordmark on the lid back (faces camera)
         const logoTex = track(
             new THREE.CanvasTexture(
-                makeCanvas(128, 96, (ctx) => {
+                makeCanvas(256, 64, (ctx) => {
                     ctx.fillStyle = "#f9a8d4";
-                    ctx.font = "bold 40px monospace";
+                    ctx.font = "bold 36px monospace";
                     ctx.textAlign = "center";
                     ctx.textBaseline = "middle";
                     ctx.shadowColor = "#f472b6";
-                    ctx.shadowBlur = 14;
-                    ctx.fillText("</>", 64, 50);
+                    ctx.shadowBlur = 12;
+                    ctx.fillText("oblivious", 128, 34);
                 })
             )
         );
         const logo = new THREE.Mesh(
-            track(new THREE.PlaneGeometry(0.42, 0.3)),
+            track(new THREE.PlaneGeometry(0.88, 0.22)),
             track(
                 new THREE.MeshBasicMaterial({
                     map: logoTex,
