@@ -16,10 +16,10 @@
             ? " py-4 bg-noir-950/90 backdrop-blur border-violet-950"
             : " py-6 bg-transparent border-transparent")}
 >
-    <h1 class="text-base sm:text-lg font-medium">
+    <a href="/" class="text-base sm:text-lg font-medium hover:opacity-80 duration-200" aria-label="Home">
         <span class="text-neon-cyan/80">~/</span><span class="text-slate-200">shreya-ojha</span>
         <span class="text-neon-violet">$</span><span class="terminal-caret text-slate-500">_</span>
-    </h1>
+    </a>
     <div class="sm:flex items-center gap-5 hidden">
         {#each tabs as tab}
             <a

@@ -97,7 +97,8 @@
                 There was no secret referral. I had been taking NPTEL courses seriously,
                 seriously enough to land in the <strong class="text-neon-cyan">top 5%</strong> in
                 Cloud Computing, and when the NPTEL internship applications opened, my course
-                record did the talking. If you're an undergrad in India, this path is genuinely
+                record did the talking. 
+                If you're an undergrad in India, this path is genuinely
                 underrated: learning is completely free — you only pay a minimal exam fee if you
                 want the proctored certificate, and that small investment genuinely boosts your
                 career, because professors actually look at these.
