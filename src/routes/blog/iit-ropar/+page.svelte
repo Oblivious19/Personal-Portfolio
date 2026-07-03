@@ -102,29 +102,9 @@
                 actually look at them.
             </p>
 
-            <figure class="flex flex-col gap-3 my-2">
-                <div
-                    class="hud-frame relative p-2 sm:p-3 border border-solid border-violet-500/25 bg-noir-900/60"
-                >
-                    <div class="hud-corners absolute inset-0 pointer-events-none" />
-                    <img
-                        src="/images/blog/nptel-selection-list.png"
-                        alt="NPTEL selection list PDF for the internship under Prof. Sudarshan Iyengar at IIT Ropar, showing Shreya Ojha as candidate number 41"
-                        width="1326"
-                        height="484"
-                        loading="lazy"
-                        class="w-full h-auto"
-                    />
-                </div>
-                <figcaption class="text-xs sm:text-sm text-slate-500 text-center">
-                    [selected.pdf] — candidate #41 on the NPTEL selection list for Prof. Iyengar's
-                    group
-                </figcaption>
-            </figure>
-
             <p>
-                A few days later the official offer letter landed — an 8-week virtual research
-                internship at IIT Ropar, starting May 19, 2025.
+                A few days after making the selection list, the official offer letter landed —
+                an 8-week virtual research internship at IIT Ropar, starting May 19, 2025.
             </p>
 
             <figure class="flex flex-col gap-3 my-2 sm:max-w-[480px] sm:mx-auto">
