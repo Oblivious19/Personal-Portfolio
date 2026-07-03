@@ -84,11 +84,9 @@
 </script>
 
 <main class="flex flex-col flex-1 p-4">
-    <section
-        id="introPage"
-        class="relative grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-6 py-8 sm:py-12 lg:py-16 items-center"
-    >
-        <div class="flex flex-col lg:justify-center text-center lg:text-left gap-6 md:gap-8 z-10">
+    <section id="introPage" class="relative py-8 sm:py-12 lg:py-16">
+        <HeroInteractive>
+        <div class="flex flex-col lg:justify-center text-center lg:text-left gap-6 md:gap-8">
             <!-- boot sequence (desktop only — hidden on mobile to reduce clutter) -->
             <div
                 class="hidden sm:block text-left text-xs sm:text-sm text-neon-cyan/70 sm:min-h-[66px] mx-auto lg:mx-0 w-fit"
@@ -157,8 +155,7 @@
                 </div>
             </div>
         </div>
-
-        <HeroInteractive />
+        </HeroInteractive>
     </section>
 
     <GlitchDivider />

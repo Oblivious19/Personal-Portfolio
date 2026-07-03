@@ -154,14 +154,14 @@
 
 <div
     bind:this={stage}
-    class="hud-frame relative w-full min-h-[420px] sm:min-h-[520px] lg:min-h-[600px] overflow-hidden bg-noir-700/40"
+    class="hud-frame relative w-full overflow-hidden bg-noir-700/40"
     on:mousemove={handleMouseMove}
     on:mouseleave={handleMouseLeave}
     role="presentation"
 >
     <div class="hud-corners absolute inset-0 pointer-events-none" />
 
-    <!-- ambient layers -->
+    <!-- ambient layers (full hero width) -->
     <div class="hero-gradient absolute inset-0 pointer-events-none" />
     <div class="hero-grid absolute inset-0 pointer-events-none opacity-40" />
     <div class="hero-stars absolute inset-0 pointer-events-none" />
@@ -175,7 +175,7 @@
         style="left: {glowX}%; top: {glowY}%;"
     />
 
-    <!-- HUD status readouts -->
+    <!-- HUD status readouts (frame the whole hero) -->
     <div
         class="absolute top-3 left-4 z-[6] flex items-center gap-2 text-[10px] sm:text-xs tracking-widest text-neon-cyan/80 pointer-events-none"
     >
@@ -198,8 +198,16 @@
         v2.0
     </div>
 
-    <!-- the mascot -->
-    <div class="absolute inset-0 z-[5]">
-        <Mascot3D />
+    <!-- content: hero text (slot) + mascot -->
+    <div
+        class="relative grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-6 items-center p-6 sm:p-10 lg:p-12"
+    >
+        <div class="relative z-10">
+            <slot />
+        </div>
+
+        <div class="relative z-[5] min-h-[380px] sm:min-h-[480px] lg:min-h-[560px]">
+            <Mascot3D />
+        </div>
     </div>
 </div>
