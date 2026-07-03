@@ -62,12 +62,104 @@
                 <span class="text-neon-cyan">##</span> Getting in
             </h2>
             <p>
-                There was no secret referral. I had been taking NPTEL courses seriously —
+                There was no secret referral. I had been taking NPTEL courses seriously,
                 seriously enough to land in the <strong class="text-neon-cyan">top 5%</strong> in
-                Cloud Computing — and when the NPTEL internship applications opened, my course
+                Cloud Computing, and when the NPTEL internship applications opened, my course
                 record did the talking. If you're an undergrad in India, this path is genuinely
                 underrated: the courses are free, the certificates are proctored, and professors
                 actually look at them.
+            </p>
+
+            <figure class="flex flex-col gap-3 my-2">
+                <div
+                    class="hud-frame relative p-2 sm:p-3 border border-solid border-violet-500/25 bg-noir-900/60"
+                >
+                    <div class="hud-corners absolute inset-0 pointer-events-none" />
+                    <img
+                        src="/images/blog/nptel-selection-list.png"
+                        alt="NPTEL selection list PDF for the internship under Prof. Sudarshan Iyengar at IIT Ropar, showing Shreya Ojha as candidate number 41"
+                        width="1326"
+                        height="484"
+                        loading="lazy"
+                        class="w-full h-auto"
+                    />
+                </div>
+                <figcaption class="text-xs sm:text-sm text-slate-500 text-center">
+                    [selected.pdf] — candidate #41 on the NPTEL selection list for Prof. Iyengar's
+                    group
+                </figcaption>
+            </figure>
+
+            <p>
+                A few days later the official offer letter landed — an 8-week virtual research
+                internship at IIT Ropar, starting May 19, 2025.
+            </p>
+
+            <figure class="flex flex-col gap-3 my-2 sm:max-w-[480px] sm:mx-auto">
+                <div
+                    class="hud-frame relative p-2 sm:p-3 border border-solid border-violet-500/25 bg-noir-900/60"
+                >
+                    <div class="hud-corners absolute inset-0 pointer-events-none" />
+                    <img
+                        src="/images/blog/nptel-offer-letter.jpeg"
+                        alt="NPTEL Summer Internship 2025 offer letter for Shreya Ojha: 8-week virtual internship at IIT Ropar under Prof. Sudarshan Iyengar, May 19 to July 13, 2025"
+                        width="800"
+                        height="1132"
+                        loading="lazy"
+                        class="w-full h-auto"
+                    />
+                </div>
+                <figcaption class="text-xs sm:text-sm text-slate-500 text-center">
+                    [offer-letter.pdf] — NPTEL Summer Internship 2025 offer, dated May 11, 2025
+                </figcaption>
+            </figure>
+
+            <h2 class="text-xl sm:text-2xl font-medium poppins text-slate-100 mt-2">
+                <span class="text-neon-cyan">##</span> What I built: Query2Map
+            </h2>
+            <p>
+                My project was <strong class="text-neon-violet">Query2Map</strong> — an
+                AI-powered learning platform that takes a student's natural-language question
+                ("how do I know when to use a heap?") and maps it onto a graph-based ontology of
+                DSA concepts, then serves back a ranked, personalized learning path with curated
+                videos and articles.
+            </p>
+            <p>
+                The stack: <strong>MERN</strong> end to end, with
+                <strong>Ollama Mistral</strong> running the language model locally,
+                <strong>NLP</strong> for query understanding, and the YouTube + SERP APIs for
+                real time content. I engineered the Express.js API layer and got answer accuracy
+                to <strong class="text-neon-cyan">85%</strong> against our evaluation set.
+            </p>
+
+            <h2 class="text-xl sm:text-2xl font-medium poppins text-slate-100 mt-2">
+                <span class="text-neon-cyan">##</span> What research taught me that shipping didn't
+            </h2>
+            <p>
+                I came in as someone who shipped products.I left as someone who
+                <em>measures</em> them. In freelance work, "it works" is the finish line. In a
+                research group, "it works" is where the questions start: works compared to what?
+                On which queries does it fail? Why 85% and not 95%? That habit of instrumenting
+                and interrogating everything followed me back into every project since.
+            </p>
+
+            <h2 class="text-xl sm:text-2xl font-medium poppins text-slate-100 mt-2">
+                <span class="text-neon-cyan">##</span> Advice if you want this
+            </h2>
+            <ul class="flex flex-col gap-2 list-disc pl-5">
+                <li>Treat NPTEL courses as a portfolio, not a checkbox rank matters.</li>
+                <li>Have one real project you can demo live before you apply.</li>
+                <li>
+                    In research, write down what you tried and why it failed — your professor
+                    cares about the process as much as the result.
+                </li>
+            </ul>
+
+            <h2 class="text-xl sm:text-2xl font-medium poppins text-slate-100 mt-2">
+                <span class="text-neon-cyan">##</span> Signed off
+            </h2>
+            <p>
+                Eight weeks later: internship complete, project shipped, certificate in hand.
             </p>
 
             <figure class="flex flex-col gap-3 my-2">
@@ -88,47 +180,6 @@
                     [proof.png] — NPTEL internship certificate · IIT Ropar · May 19 – July 13, 2025
                 </figcaption>
             </figure>
-
-            <h2 class="text-xl sm:text-2xl font-medium poppins text-slate-100 mt-2">
-                <span class="text-neon-cyan">##</span> What I built: Query2Map
-            </h2>
-            <p>
-                My project was <strong class="text-neon-violet">Query2Map</strong> — an
-                AI-powered learning platform that takes a student's natural-language question
-                ("how do I know when to use a heap?") and maps it onto a graph-based ontology of
-                DSA concepts, then serves back a ranked, personalized learning path with curated
-                videos and articles.
-            </p>
-            <p>
-                The stack: <strong>MERN</strong> end to end, with
-                <strong>Ollama Mistral</strong> running the language model locally,
-                <strong>NLP</strong> for query understanding, and the YouTube + SERP APIs for
-                real-time content. I engineered the Express.js API layer and got answer accuracy
-                to <strong class="text-neon-cyan">85%</strong> against our evaluation set.
-            </p>
-
-            <h2 class="text-xl sm:text-2xl font-medium poppins text-slate-100 mt-2">
-                <span class="text-neon-cyan">##</span> What research taught me that shipping didn't
-            </h2>
-            <p>
-                I came in as someone who shipped products — I left as someone who
-                <em>measures</em> them. In freelance work, "it works" is the finish line. In a
-                research group, "it works" is where the questions start: works compared to what?
-                On which queries does it fail? Why 85% and not 95%? That habit of instrumenting
-                and interrogating everything followed me back into every project since.
-            </p>
-
-            <h2 class="text-xl sm:text-2xl font-medium poppins text-slate-100 mt-2">
-                <span class="text-neon-cyan">##</span> Advice if you want this
-            </h2>
-            <ul class="flex flex-col gap-2 list-disc pl-5">
-                <li>Treat NPTEL courses as a portfolio, not a checkbox — rank matters.</li>
-                <li>Have one real project you can demo live before you apply.</li>
-                <li>
-                    In research, write down what you tried and why it failed — your professor
-                    cares about the process as much as the result.
-                </li>
-            </ul>
         </div>
 
         <a
