@@ -135,10 +135,10 @@
                 </h2>
 
                 <p class="text-base sm:text-lg md:text-xl text-slate-400 max-w-xl mx-auto lg:mx-0">
-                    I build <span class="text-neon-violet">scalable APIs</span>, responsive UIs and
-                    secure backends — from
-                    <span class="text-neon-cyan">AI learning platforms</span> to live e-commerce
-                    handling real orders.
+                    I don't build demos — I ship to production: an
+                    <span class="text-neon-violet">AI learning platform</span> built at IIT Ropar,
+                    a <span class="text-neon-cyan">live store</span> processing real payments,
+                    and APIs that don't fall over.
                 </p>
 
                 <div class="flex flex-col sm:flex-row items-center gap-4 mx-auto lg:mx-0">
