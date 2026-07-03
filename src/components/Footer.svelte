@@ -21,6 +21,12 @@
             icon: "fab fa-linkedin",
         },
         {
+            label: "x",
+            value: "@Oblivious9021",
+            href: "https://x.com/Oblivious9021",
+            icon: "fab fa-x-twitter",
+        },
+        {
             label: "resume",
             value: "download.pdf",
             href: "/Shreya_Ojha_Resume.pdf",

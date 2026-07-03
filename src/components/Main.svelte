@@ -130,7 +130,7 @@
                     <span class="glitch-text poppins hero-gradient-text">SHREYA OJHA</span>
                     <br />
                     <span class="text-2xl sm:text-3xl md:text-4xl text-slate-300 tracking-wide">
-                        full-stack developer<span class="terminal-caret text-neon-cyan">_</span>
+                        Full-Stack Developer<span class="terminal-caret text-neon-cyan">_</span>
                     </span>
                 </h2>
 
@@ -138,7 +138,7 @@
                     Full-stack developer who takes products from idea to production —
                     including an <span class="text-neon-violet">AI learning platform</span>
                     built at IIT Ropar and an
-                    <span class="text-neon-cyan">e-commerce store</span> processing real
+                    <span class="text-neon-cyan">E-commerce store</span> processing real
                     payments today.
                 </p>
 
@@ -156,7 +156,7 @@
                         href="#footer"
                         class="text-base sm:text-lg poppins px-6 py-3 inline-block border border-solid border-neon-cyan/50 text-neon-cyan hover:border-neon-cyan hover:neon-glow-cyan hover:bg-neon-cyan/10 duration-200"
                     >
-                        lets_build() →
+                                    Open_channel() →
                     </a>
                 </div>
             </div>
