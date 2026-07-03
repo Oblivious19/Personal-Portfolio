@@ -180,6 +180,73 @@
                     [proof.png] — NPTEL internship certificate · IIT Ropar · May 19 – July 13, 2025
                 </figcaption>
             </figure>
+
+            <h2 class="text-xl sm:text-2xl font-medium poppins text-slate-100 mt-2">
+                <span class="text-neon-cyan">##</span> NPTEL Certifications
+            </h2>
+            <p>
+                The coursework that got me here — all Elite-certified, proctored, and verifiable:
+            </p>
+
+            <figure class="flex flex-col gap-3 my-2">
+                <div
+                    class="hud-frame relative p-2 sm:p-3 border border-solid border-violet-500/25 bg-noir-900/60"
+                >
+                    <div class="hud-corners absolute inset-0 pointer-events-none" />
+                    <img
+                        src="/images/blog/nptel-cert-cloud-computing.png"
+                        alt="NPTEL Elite certificate: Cloud Computing, IIT Kharagpur, consolidated score 84%, Topper 5% badge, Jul–Oct 2024"
+                        width="1600"
+                        height="1146"
+                        loading="lazy"
+                        class="w-full h-auto"
+                    />
+                </div>
+                <figcaption class="text-xs sm:text-sm text-slate-500 text-center">
+                    [cert-01] — Cloud Computing · IIT Kharagpur · 84% ·
+                    <span class="text-neon-violet">Elite + Top 5%</span>
+                </figcaption>
+            </figure>
+
+            <figure class="flex flex-col gap-3 my-2">
+                <div
+                    class="hud-frame relative p-2 sm:p-3 border border-solid border-violet-500/25 bg-noir-900/60"
+                >
+                    <div class="hud-corners absolute inset-0 pointer-events-none" />
+                    <img
+                        src="/images/blog/nptel-cert-computer-networks.png"
+                        alt="NPTEL Elite certificate: Computer Networks and Internet Protocol, IIT Kharagpur, consolidated score 80%, Jan–Apr 2024"
+                        width="1600"
+                        height="1148"
+                        loading="lazy"
+                        class="w-full h-auto"
+                    />
+                </div>
+                <figcaption class="text-xs sm:text-sm text-slate-500 text-center">
+                    [cert-02] — Computer Networks & Internet Protocol · IIT Kharagpur · 80% ·
+                    <span class="text-neon-violet">Elite</span>
+                </figcaption>
+            </figure>
+
+            <figure class="flex flex-col gap-3 my-2">
+                <div
+                    class="hud-frame relative p-2 sm:p-3 border border-solid border-violet-500/25 bg-noir-900/60"
+                >
+                    <div class="hud-corners absolute inset-0 pointer-events-none" />
+                    <img
+                        src="/images/blog/nptel-cert-operating-systems.png"
+                        alt="NPTEL Elite certificate: Introduction to Operating Systems, IIT Madras, consolidated score 60%, Jul–Sep 2024"
+                        width="1600"
+                        height="1146"
+                        loading="lazy"
+                        class="w-full h-auto"
+                    />
+                </div>
+                <figcaption class="text-xs sm:text-sm text-slate-500 text-center">
+                    [cert-03] — Introduction to Operating Systems · IIT Madras ·
+                    <span class="text-neon-violet">Elite</span>
+                </figcaption>
+            </figure>
         </div>
 
         <a
