@@ -7,6 +7,11 @@
     let sectionEl;
     let spineEl;
     let triggers = [];
+    let expandedChapter = null;
+
+    function toggleChapter(i) {
+        expandedChapter = expandedChapter === i ? null : i;
+    }
 
     const chapters = [
         {
@@ -118,45 +123,64 @@
         />
 
         <div class="flex flex-col gap-14 sm:gap-16">
-            {#each chapters as chapter}
+            {#each chapters as chapter, i}
                 <div class="chapter relative">
                     <!-- node -->
                     <span
                         class="timeline-node absolute -left-[30px] sm:-left-[38px] top-1.5 w-3 h-3 rounded-full bg-neon-cyan"
                     />
                     <div class="flex flex-col gap-2">
-                        <div class="flex items-baseline gap-3 flex-wrap">
-                            <span class="text-neon-violet font-bold text-lg sm:text-xl tracking-widest"
-                                >{chapter.year}</span
-                            >
-                            <h3 class="text-xl sm:text-2xl font-medium poppins">
-                                {chapter.title}
-                            </h3>
-                        </div>
-                        <p class="text-sm text-neon-cyan/80">{chapter.place}</p>
-                        <p class="text-slate-300 leading-relaxed max-w-[620px]">
-                            {chapter.story}
-                        </p>
-                        <div class="flex flex-wrap gap-2 mt-1">
-                            {#each chapter.chips as chip}
+                        <button
+                            type="button"
+                            class="flex flex-col gap-2 w-full text-left sm:pointer-events-none sm:cursor-default"
+                            on:click={() => toggleChapter(i)}
+                            aria-expanded={expandedChapter === i}
+                        >
+                            <div class="flex items-baseline gap-3 flex-wrap">
                                 <span
-                                    class="px-2.5 py-0.5 text-xs border border-solid border-violet-500/30 bg-violet-950/40 text-violet-300"
+                                    class="text-neon-violet font-bold text-lg sm:text-xl tracking-widest"
+                                    >{chapter.year}</span
                                 >
-                                    {chip}
+                                <h3 class="text-xl sm:text-2xl font-medium poppins flex-1">
+                                    {chapter.title}
+                                </h3>
+                                <span
+                                    class={"sm:hidden text-xs text-neon-cyan/70 duration-200 " +
+                                        (expandedChapter === i ? "rotate-180" : "")}
+                                >
+                                    <i class="fa-solid fa-chevron-down" />
                                 </span>
-                            {/each}
+                            </div>
+                            <p class="text-sm text-neon-cyan/80">{chapter.place}</p>
+                        </button>
+                        <div
+                            class={(expandedChapter === i ? "flex" : "hidden") +
+                                " sm:flex flex-col gap-2"}
+                        >
+                            <p class="text-slate-300 leading-relaxed max-w-[620px]">
+                                {chapter.story}
+                            </p>
+                            <div class="flex flex-wrap gap-2 mt-1">
+                                {#each chapter.chips as chip}
+                                    <span
+                                        class="px-2.5 py-0.5 text-xs border border-solid border-violet-500/30 bg-violet-950/40 text-violet-300"
+                                    >
+                                        {chip}
+                                    </span>
+                                {/each}
+                            </div>
+                            {#if chapter.link}
+                                <a
+                                    href={chapter.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="inline-flex items-center gap-2 text-sm text-neon-cyan hover:text-neon-cyan-bright duration-200 w-fit mt-1"
+                                >
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs" />
+                                    view live product
+                                </a>
+                            {/if}
                         </div>
-                        {#if chapter.link}
-                            <a
-                                href={chapter.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="inline-flex items-center gap-2 text-sm text-neon-cyan hover:text-neon-cyan-bright duration-200 w-fit mt-1"
-                            >
-                                <i class="fa-solid fa-arrow-up-right-from-square text-xs" />
-                                view live product
-                            </a>
-                        {/if}
                     </div>
                 </div>
             {/each}
