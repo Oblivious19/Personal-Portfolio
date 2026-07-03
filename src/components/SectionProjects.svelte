@@ -33,9 +33,10 @@
             name: "ConsumeWise",
             subtitle: "Personal Project · AI Health",
             icon: "fa-solid fa-barcode",
+            liveUrl: "https://consumewise-six.vercel.app/",
             githubUrl: "https://github.com/Oblivious19/ConsumeWise",
             accent: "emerald",
-            badge: "Open Source",
+            badge: "Live Product",
             stats: ["95% scan accuracy", "85%+ product coverage", "OCR + ML"],
             tags: ["Python", "OCR", "Machine Learning", "Next.js"],
         },
@@ -127,7 +128,8 @@
             <Step step={steps[2]}>
                 <p>
                     An <strong class="text-emerald-400">AI food label scanner</strong> using OCR and ML
-                    to scan barcodes and deliver nutrition insights with 95% accuracy.
+                    to scan barcodes and deliver nutrition insights with 95% accuracy — deployed
+                    and live on Vercel.
                 </p>
             </Step>
         </div>
