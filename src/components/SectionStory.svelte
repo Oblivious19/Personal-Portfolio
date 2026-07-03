@@ -47,6 +47,7 @@
                 "At IIT Ropar I built Query2Map — an AI learning platform that maps natural-language questions to a graph-based DSA ontology using Ollama Mistral and NLP, hitting 85% answer accuracy. Research taught me to measure everything.",
             chips: ["NLP", "Ollama Mistral", "MERN", "85% accuracy"],
             link: "https://query-2map-frontend-cm4w.onrender.com/",
+            blogLink: "/blog/iit-ropar",
         },
         {
             year: "NOW",
@@ -169,17 +170,28 @@
                                     </span>
                                 {/each}
                             </div>
-                            {#if chapter.link}
-                                <a
-                                    href={chapter.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="inline-flex items-center gap-2 text-sm text-neon-cyan hover:text-neon-cyan-bright duration-200 w-fit mt-1"
-                                >
-                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs" />
-                                    view live product
-                                </a>
-                            {/if}
+                            <div class="flex flex-wrap gap-x-6 gap-y-2 mt-1">
+                                {#if chapter.link}
+                                    <a
+                                        href={chapter.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="inline-flex items-center gap-2 text-sm text-neon-cyan hover:text-neon-cyan-bright duration-200 w-fit"
+                                    >
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-xs" />
+                                        view live product
+                                    </a>
+                                {/if}
+                                {#if chapter.blogLink}
+                                    <a
+                                        href={chapter.blogLink}
+                                        class="inline-flex items-center gap-2 text-sm text-neon-violet hover:text-neon-violet-bright duration-200 w-fit"
+                                    >
+                                        <i class="fa-solid fa-book-open text-xs" />
+                                        read the blog
+                                    </a>
+                                {/if}
+                            </div>
                         </div>
                     </div>
                 </div>
