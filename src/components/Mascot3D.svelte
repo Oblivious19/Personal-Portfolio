@@ -2,6 +2,7 @@
     import { onMount, onDestroy } from "svelte";
     import { browser } from "$app/environment";
     import gsap from "gsap";
+    import { playPurr } from "$lib/chime.js";
 
     // "sm" renders a lighter cameo (no particles/panels) for the footer
     export let size = "lg";
@@ -33,7 +34,13 @@
     // interactions
     let headGroup;
     let doEmote = null;
+    let spawnHearts = null;
     let dragging = false;
+    // long-press: heart shower + purr
+    let longPressTimer = null;
+    let longPressing = false;
+    let heartRainTimer = null;
+    let stopPurr = null;
     let dragMoved = 0;
     let lastDragX = 0;
     let spinVel = 0;
@@ -536,6 +543,31 @@
                 })
             )
         );
+        spawnHearts = (count, spread = 1.2) => {
+            for (let i = 0; i < count; i++) {
+                const mat = new THREE.SpriteMaterial({
+                    map: heartTex,
+                    transparent: true,
+                    opacity: 0.9,
+                    depthWrite: false,
+                });
+                const sprite = new THREE.Sprite(mat);
+                sprite.position.set(
+                    (Math.random() - 0.5) * spread,
+                    1.5 + Math.random() * 0.9,
+                    0.85
+                );
+                const sc = 0.16 + Math.random() * 0.16;
+                sprite.scale.set(sc, sc, sc);
+                scene.add(sprite);
+                hearts.push({
+                    sprite,
+                    vx: (Math.random() - 0.5) * 0.018,
+                    vy: 0.018 + Math.random() * 0.02,
+                    life: 1,
+                });
+            }
+        };
         doEmote = () => {
             if (reducedMotion) return;
             gsap.timeline()
@@ -557,29 +589,7 @@
             gsap.timeline({ onComplete: () => gsapPulse(antennaTip) })
                 .to(antennaTip.scale, { x: 2.4, y: 2.4, z: 2.4, duration: 0.12 })
                 .to(antennaTip.scale, { x: 1, y: 1, z: 1, duration: 0.4 });
-            for (let i = 0; i < 10; i++) {
-                const mat = new THREE.SpriteMaterial({
-                    map: heartTex,
-                    transparent: true,
-                    opacity: 0.9,
-                    depthWrite: false,
-                });
-                const sprite = new THREE.Sprite(mat);
-                sprite.position.set(
-                    (Math.random() - 0.5) * 1.2,
-                    1.5 + Math.random() * 0.9,
-                    0.85
-                );
-                const sc = 0.16 + Math.random() * 0.16;
-                sprite.scale.set(sc, sc, sc);
-                scene.add(sprite);
-                hearts.push({
-                    sprite,
-                    vx: (Math.random() - 0.5) * 0.018,
-                    vy: 0.018 + Math.random() * 0.02,
-                    life: 1,
-                });
-            }
+            spawnHearts(10);
         };
 
         // occasional idle emote when nobody has interacted for a while
@@ -733,6 +743,48 @@
         animate();
     }
 
+    // long-press: continuous heart shower + robot purr while held
+    function startLove() {
+        if (longPressing || reducedMotion) return;
+        longPressing = true;
+        stopPurr = playPurr();
+        spawnHearts?.(6, 1.6);
+        heartRainTimer = setInterval(() => spawnHearts?.(5, 1.6), 160);
+        // gentle happy squeeze while being held
+        if (charGroup) {
+            gsap.to(charGroup.scale, {
+                x: 1.05,
+                y: 0.94,
+                z: 1.05,
+                duration: 0.25,
+                ease: "power2.out",
+            });
+        }
+    }
+
+    function endLove() {
+        if (!longPressing) return;
+        longPressing = false;
+        clearInterval(heartRainTimer);
+        heartRainTimer = null;
+        stopPurr?.();
+        stopPurr = null;
+        if (charGroup) {
+            gsap.to(charGroup.scale, {
+                x: 1,
+                y: 1,
+                z: 1,
+                duration: 0.6,
+                ease: "elastic.out(1, 0.4)",
+            });
+        }
+    }
+
+    function cancelLongPress() {
+        clearTimeout(longPressTimer);
+        longPressTimer = null;
+    }
+
     function handlePointerDown(e) {
         if (reducedMotion) return;
         dragging = true;
@@ -740,6 +792,10 @@
         lastDragX = e.clientX;
         lastPointerT = performance.now();
         container?.setPointerCapture?.(e.pointerId);
+        cancelLongPress();
+        longPressTimer = setTimeout(() => {
+            if (dragging && dragMoved < 6) startLove();
+        }, 420);
     }
 
     function handlePointerMove(e) {
@@ -757,22 +813,34 @@
             lastDragX = e.clientX;
             dragMoved += Math.abs(dx);
             spinVel += dx * 0.0016;
-            if (dragMoved > 6) container.style.cursor = "grabbing";
+            if (dragMoved > 6) {
+                container.style.cursor = "grabbing";
+                cancelLongPress();
+                endLove();
+            }
         }
     }
 
     function handlePointerUp() {
         if (!dragging) return;
         dragging = false;
+        cancelLongPress();
         if (container) container.style.cursor = "default";
-        // small movement = a tap/click → she reacts
-        if (dragMoved < 6) doEmote?.();
+        if (longPressing) {
+            // long-press already showered hearts — just wind it down
+            endLove();
+        } else if (dragMoved < 6) {
+            // small movement = a tap/click → she reacts
+            doEmote?.();
+        }
     }
 
     function handlePointerLeave() {
         targetRotX = 0;
         targetRotY = 0;
         dragging = false;
+        cancelLongPress();
+        endLove();
         if (container) container.style.cursor = "default";
         if (pointerNDC) pointerNDC.set(-9, -9);
     }
@@ -813,6 +881,9 @@
         clearTimeout(blinkTimer);
         clearTimeout(keyTimer);
         clearTimeout(idleEmoteTimer);
+        clearTimeout(longPressTimer);
+        clearInterval(heartRainTimer);
+        stopPurr?.();
         clearInterval(speechTimer);
         window.removeEventListener("resize", resize);
         for (const h of hearts) {
@@ -831,13 +902,14 @@
 <div class="relative w-full h-full">
     <div
         bind:this={container}
-        class="w-full h-full"
-        style="touch-action: pan-y;"
+        class="w-full h-full select-none"
+        style="touch-action: pan-y; -webkit-touch-callout: none;"
         on:pointerdown={handlePointerDown}
         on:pointermove={handlePointerMove}
         on:pointerup={handlePointerUp}
         on:pointercancel={handlePointerLeave}
         on:pointerleave={handlePointerLeave}
+        on:contextmenu|preventDefault
         role="presentation"
     />
 

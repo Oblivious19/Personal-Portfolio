@@ -1,3 +1,74 @@
+// Synthesized robot "purr" — a soft fluttery trill that plays while the
+// mascot is long-pressed. Returns a stop() function (call on release), or
+// null if audio is unavailable. Always user-gesture triggered, so no
+// autoplay concerns.
+export function playPurr() {
+    if (typeof window === "undefined") return null;
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return null;
+
+    let ctx;
+    try {
+        ctx = new Ctx();
+        if (ctx.state === "suspended") ctx.resume().catch(() => {});
+
+        const now = ctx.currentTime;
+        const master = ctx.createGain();
+        master.gain.setValueAtTime(0.0001, now);
+        master.gain.exponentialRampToValueAtTime(0.16, now + 0.15);
+        master.connect(ctx.destination);
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.value = 900;
+
+        // tremolo gain fluttered by an LFO — this flutter *is* the purr
+        const trem = ctx.createGain();
+        trem.gain.value = 0.6;
+        const lfo = ctx.createOscillator();
+        lfo.frequency.value = 24;
+        const lfoDepth = ctx.createGain();
+        lfoDepth.gain.value = 0.4;
+        lfo.connect(lfoDepth).connect(trem.gain);
+
+        // body tone + a quieter fifth above, both creeping upward = "happier"
+        const body = ctx.createOscillator();
+        body.type = "triangle";
+        body.frequency.setValueAtTime(150, now);
+        body.frequency.linearRampToValueAtTime(195, now + 2.5);
+        const fifth = ctx.createOscillator();
+        fifth.type = "sine";
+        fifth.frequency.setValueAtTime(225, now);
+        fifth.frequency.linearRampToValueAtTime(292, now + 2.5);
+        const fifthGain = ctx.createGain();
+        fifthGain.gain.value = 0.35;
+
+        body.connect(trem);
+        fifth.connect(fifthGain).connect(trem);
+        trem.connect(filter).connect(master);
+        body.start(now);
+        fifth.start(now);
+        lfo.start(now);
+
+        let stopped = false;
+        const stop = () => {
+            if (stopped) return;
+            stopped = true;
+            const t = ctx.currentTime;
+            master.gain.cancelScheduledValues(t);
+            master.gain.setValueAtTime(Math.max(master.gain.value, 0.001), t);
+            master.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+            setTimeout(() => ctx.close().catch(() => {}), 400);
+        };
+        // safety: never purr forever if release is missed
+        setTimeout(stop, 4000);
+        return stop;
+    } catch {
+        ctx?.close().catch(() => {});
+        return null;
+    }
+}
+
 // Synthesized "power-on" entry chime (Web Audio, no asset file).
 // Best-effort: resolves true if it actually played, false if the
 // browser blocked autoplay or Web Audio is unavailable.
