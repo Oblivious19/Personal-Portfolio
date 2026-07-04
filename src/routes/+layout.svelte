@@ -3,7 +3,10 @@
     import Header from "../components/Header.svelte";
     import Loader from "../components/Loader.svelte";
     import { loaderDone } from "$lib/loader.js";
+    import { injectAnalytics } from "@vercel/analytics/sveltekit";
     import "../app.css";
+
+    injectAnalytics();
     let y;
     let innerWidth = 0;
     let innerHeight = 0;
