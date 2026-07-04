@@ -2,6 +2,7 @@
     import { onMount, onDestroy, createEventDispatcher, tick } from "svelte";
     import { browser } from "$app/environment";
     import gsap from "gsap";
+    import { playEntryChime } from "$lib/chime.js";
 
     const dispatch = createEventDispatcher();
 
@@ -27,6 +28,25 @@
 
     let timers = [];
     let progressTween;
+
+    // entry chime: try autoplay at the name reveal; if blocked, retry on the
+    // first tap/keypress while the loader is still up
+    function chimeUnlock() {
+        removeChimeUnlock();
+        if (!finished) playEntryChime();
+    }
+    function removeChimeUnlock() {
+        if (!browser) return;
+        window.removeEventListener("pointerdown", chimeUnlock);
+        window.removeEventListener("keydown", chimeUnlock);
+    }
+    async function tryChime() {
+        const played = await playEntryChime();
+        if (!played && !finished) {
+            window.addEventListener("pointerdown", chimeUnlock, { once: true });
+            window.addEventListener("keydown", chimeUnlock, { once: true });
+        }
+    }
 
     $: barBlocks = (() => {
         const total = 18;
@@ -54,6 +74,7 @@
 
     async function showName() {
         phase = "name";
+        tryChime();
         await tick();
         if (!nameEl) {
             timers.push(setTimeout(splitReveal, 750));
@@ -119,6 +140,7 @@
         if (!browser) return;
         timers.forEach(clearTimeout);
         progressTween?.kill();
+        removeChimeUnlock();
         document.documentElement.style.overflow = "";
     });
 </script>
