@@ -69,6 +69,64 @@ export function playPurr() {
     }
 }
 
+// Short tap version of the purr — a quick happy "brrp!" (~0.35s).
+export function playChirp() {
+    if (typeof window === "undefined") return;
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+
+    let ctx;
+    try {
+        ctx = new Ctx();
+        if (ctx.state === "suspended") ctx.resume().catch(() => {});
+
+        const now = ctx.currentTime;
+        const master = ctx.createGain();
+        master.gain.setValueAtTime(0.0001, now);
+        master.gain.exponentialRampToValueAtTime(0.16, now + 0.03);
+        master.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+        master.connect(ctx.destination);
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.value = 1200;
+
+        // same purr flutter, compressed into a quick upward "brrp"
+        const trem = ctx.createGain();
+        trem.gain.value = 0.6;
+        const lfo = ctx.createOscillator();
+        lfo.frequency.value = 28;
+        const lfoDepth = ctx.createGain();
+        lfoDepth.gain.value = 0.4;
+        lfo.connect(lfoDepth).connect(trem.gain);
+
+        const body = ctx.createOscillator();
+        body.type = "triangle";
+        body.frequency.setValueAtTime(170, now);
+        body.frequency.exponentialRampToValueAtTime(300, now + 0.28);
+        const fifth = ctx.createOscillator();
+        fifth.type = "sine";
+        fifth.frequency.setValueAtTime(255, now);
+        fifth.frequency.exponentialRampToValueAtTime(450, now + 0.28);
+        const fifthGain = ctx.createGain();
+        fifthGain.gain.value = 0.35;
+
+        body.connect(trem);
+        fifth.connect(fifthGain).connect(trem);
+        trem.connect(filter).connect(master);
+        body.start(now);
+        fifth.start(now);
+        lfo.start(now);
+        body.stop(now + 0.4);
+        fifth.stop(now + 0.4);
+        lfo.stop(now + 0.4);
+
+        setTimeout(() => ctx.close().catch(() => {}), 600);
+    } catch {
+        ctx?.close().catch(() => {});
+    }
+}
+
 // Synthesized "power-on" entry chime (Web Audio, no asset file).
 // Best-effort: resolves true if it actually played, false if the
 // browser blocked autoplay or Web Audio is unavailable.

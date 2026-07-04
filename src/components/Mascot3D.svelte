@@ -2,7 +2,7 @@
     import { onMount, onDestroy } from "svelte";
     import { browser } from "$app/environment";
     import gsap from "gsap";
-    import { playPurr } from "$lib/chime.js";
+    import { playPurr, playChirp } from "$lib/chime.js";
 
     // "sm" renders a lighter cameo (no particles/panels) for the footer
     export let size = "lg";
@@ -830,7 +830,8 @@
             // long-press already showered hearts — just wind it down
             endLove();
         } else if (dragMoved < 6) {
-            // small movement = a tap/click → she reacts
+            // small movement = a tap/click → she reacts with a quick chirp
+            playChirp();
             doEmote?.();
         }
     }
