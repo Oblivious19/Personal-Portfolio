@@ -29,23 +29,25 @@
     let timers = [];
     let progressTween;
 
-    // entry chime: try autoplay at the name reveal; if blocked, retry on the
-    // first tap/keypress while the loader is still up
-    function chimeUnlock() {
-        removeChimeUnlock();
-        if (!finished) playEntryChime();
+    // the name reveal waits for a click/keypress to enter — the chime plays
+    // inside that gesture, so autoplay policies never block it
+    let entering = false;
+    function enter() {
+        if (entering || finished) return;
+        entering = true;
+        removeEnterListeners();
+        playEntryChime();
+        // access is granted *by* the click: swap the prompt, then split open
+        timers.push(setTimeout(splitReveal, 550));
     }
-    function removeChimeUnlock() {
+    function addEnterListeners() {
+        window.addEventListener("pointerdown", enter);
+        window.addEventListener("keydown", enter);
+    }
+    function removeEnterListeners() {
         if (!browser) return;
-        window.removeEventListener("pointerdown", chimeUnlock);
-        window.removeEventListener("keydown", chimeUnlock);
-    }
-    async function tryChime() {
-        const played = await playEntryChime();
-        if (!played && !finished) {
-            window.addEventListener("pointerdown", chimeUnlock, { once: true });
-            window.addEventListener("keydown", chimeUnlock, { once: true });
-        }
+        window.removeEventListener("pointerdown", enter);
+        window.removeEventListener("keydown", enter);
     }
 
     $: barBlocks = (() => {
@@ -74,12 +76,9 @@
 
     async function showName() {
         phase = "name";
-        tryChime();
         await tick();
-        if (!nameEl) {
-            timers.push(setTimeout(splitReveal, 750));
-            return;
-        }
+        addEnterListeners();
+        if (!nameEl) return;
         // glitch slam-in
         const tl = gsap.timeline();
         tl.fromTo(
@@ -90,8 +89,6 @@
             .to(nameEl, { x: -4, duration: 0.04, repeat: 1, yoyo: true }, ">")
             .to(nameEl, { x: 3, duration: 0.04, repeat: 1, yoyo: true }, ">")
             .to(nameEl, { x: 0, duration: 0.03 }, ">");
-
-        timers.push(setTimeout(splitReveal, 750));
     }
 
     onMount(() => {
@@ -132,21 +129,25 @@
             },
         });
 
-        // failsafe: force completion even if tweens stall (background tab)
-        timers.push(setTimeout(finish, 4000));
+        // failsafe: if tweens stall (background tab), jump to the enter screen
+        timers.push(
+            setTimeout(() => {
+                if (phase === "log" && !finished) showName();
+            }, 4000)
+        );
     });
 
     onDestroy(() => {
         if (!browser) return;
         timers.forEach(clearTimeout);
         progressTween?.kill();
-        removeChimeUnlock();
+        removeEnterListeners();
         document.documentElement.style.overflow = "";
     });
 </script>
 
 {#if !finished}
-    <div class="fixed inset-0 z-[100]" role="presentation" aria-hidden="true">
+    <div class="fixed inset-0 z-[100] {phase === 'name' ? 'cursor-pointer' : ''}" role="presentation" aria-hidden="true">
         <!-- split panels -->
         <div bind:this={topPanel} class="absolute top-0 left-0 w-full h-1/2 bg-noir-950" />
         <div bind:this={bottomPanel} class="absolute bottom-0 left-0 w-full h-1/2 bg-noir-950" />
@@ -175,9 +176,15 @@
                     >
                         SHREYA OJHA
                     </h2>
-                    <p class="text-xs sm:text-sm tracking-[0.4em] text-emerald-400">
-                        [ ACCESS GRANTED ]
-                    </p>
+                    {#if entering}
+                        <p class="text-xs sm:text-sm tracking-[0.4em] text-emerald-400">
+                            [ ACCESS GRANTED ]
+                        </p>
+                    {:else}
+                        <p class="text-xs sm:text-sm tracking-[0.4em] text-slate-400 animate-pulse">
+                            [ CLICK TO ENTER ]
+                        </p>
+                    {/if}
                 </div>
             {/if}
         </div>
