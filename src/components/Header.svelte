@@ -5,7 +5,6 @@
         { name: "projects", link: "/#projects" },
         { name: "journey", link: "/#experience" },
         { name: "skills", link: "/#skills" },
-        { name: "linkedin", link: "https://www.linkedin.com/in/shreya-ojha-a9548a218/", external: true },
     ];
 </script>
 
