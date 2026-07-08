@@ -1,4 +1,26 @@
 <script>
+    import { onMount } from "svelte";
+    import { dev } from "$app/environment";
+
+    // quiet visitor counter (Abacus — free, no-signup). Increments once per
+    // tab session in production; dev only reads. Hidden until the count loads.
+    let views = null;
+    onMount(async () => {
+        const key = "shreya-ojha-portfolio/site-views";
+        const counted = sessionStorage.getItem("viewCounted");
+        const action = dev || counted ? "get" : "hit";
+        try {
+            const res = await fetch(`https://abacus.jasoncameron.dev/${action}/${key}`);
+            const data = await res.json();
+            if (typeof data.value === "number") {
+                views = data.value;
+                if (action === "hit") sessionStorage.setItem("viewCounted", "1");
+            }
+        } catch {
+            // counter is decorative — fail silently
+        }
+    });
+
     const socials = [
         { label: "GitHub", href: "https://github.com/Oblivious19", icon: "fab fa-github" },
         {
@@ -102,7 +124,10 @@
         <div
             class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600"
         >
-            <p>© {new Date().getFullYear()} Shreya Ojha · Mumbai, India · IST (UTC+5:30)</p>
+            <p>
+                © {new Date().getFullYear()} Shreya Ojha · Mumbai, India · IST (UTC+5:30){#if views !== null}
+                    · <span class="text-slate-600/90">viewers: {views.toLocaleString("en-IN")}</span>{/if}
+            </p>
             <p>
                 built with <span class="text-neon-violet/70">SvelteKit + Three.js</span> ·
                 <span class="text-neon-cyan/60">no templates were harmed</span>
