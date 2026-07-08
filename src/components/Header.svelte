@@ -2,9 +2,9 @@
     export let y;
 
     export let tabs = [
-        { name: "projects", link: "#projects" },
-        { name: "journey", link: "#experience" },
-        { name: "skills", link: "#skills" },
+        { name: "projects", link: "/#projects" },
+        { name: "journey", link: "/#experience" },
+        { name: "skills", link: "/#skills" },
         { name: "linkedin", link: "https://www.linkedin.com/in/shreya-ojha-a9548a218/", external: true },
         { name: "resume", link: "/Shreya_Ojha_Resume.pdf", external: true },
     ];
@@ -35,7 +35,7 @@
             </a>
         {/each}
         <a
-            href="#footer"
+            href="/#footer"
             class="relative overflow-hidden px-5 py-2 group border border-solid border-neon-cyan/40 text-neon-cyan text-sm hover:neon-glow-cyan hover:border-neon-cyan/80 duration-200"
         >
             Open_channel()

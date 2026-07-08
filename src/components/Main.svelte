@@ -146,9 +146,11 @@
                     href="/blog/iit-ropar"
                     class="group inline-flex items-center gap-2.5 mx-auto lg:mx-0 w-fit px-4 py-2 rounded-full border border-violet-500/40 bg-violet-950/30 text-sm text-violet-200 hover:border-neon-violet hover:neon-glow-violet duration-200"
                 >
-                    <span class="status-pulse inline-block w-1.5 h-1.5 rounded-full bg-neon-violet" />
-                    Read: how I landed my <span class="text-neon-cyan">IIT Ropar</span> internship
-                    <span class="group-hover:translate-x-0.5 duration-200">→</span>
+                    <span class="status-pulse inline-block shrink-0 w-1.5 h-1.5 rounded-full bg-neon-violet" />
+                    <span class="text-left">
+                        Read: how I landed my <span class="text-neon-cyan">IIT Ropar</span> internship
+                        <span class="inline-block group-hover:translate-x-0.5 duration-200">→</span>
+                    </span>
                 </a>
 
                 <div class="flex flex-col sm:flex-row items-center gap-4 mx-auto lg:mx-0">

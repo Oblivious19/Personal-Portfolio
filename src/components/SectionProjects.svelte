@@ -34,7 +34,7 @@
             subtitle: "Personal Project · AI Health",
             icon: "fa-solid fa-barcode",
             liveUrl: "https://consumewise-six.vercel.app/",
-            githubUrl: "https://github.com/Oblivious19/CW.git/",
+            githubUrl: "https://github.com/Oblivious19/Consume-Wise",
             accent: "emerald",
             badge: "Live Product",
             stats: ["95% scan accuracy", "85%+ product coverage", "OCR + ML"],
