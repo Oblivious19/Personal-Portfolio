@@ -35,11 +35,13 @@
     let headGroup;
     let doEmote = null;
     let spawnHearts = null;
+    let spawnHeartNova = null;
     let dragging = false;
     // long-press: heart shower + purr
     let longPressTimer = null;
     let longPressing = false;
     let heartRainTimer = null;
+    let heartNovaTimer = null;
     let stopPurr = null;
     let dragMoved = 0;
     let lastDragX = 0;
@@ -568,6 +570,65 @@
                 });
             }
         };
+        // 5s of devotion: hearts explode outward from her and rain everywhere
+        spawnHeartNova = () => {
+            const addHeart = (x, y, vx, vy, sc) => {
+                const mat = new THREE.SpriteMaterial({
+                    map: heartTex,
+                    transparent: true,
+                    opacity: 0.9,
+                    depthWrite: false,
+                });
+                const sprite = new THREE.Sprite(mat);
+                sprite.position.set(x, y, 0.9);
+                sprite.scale.set(sc, sc, sc);
+                scene.add(sprite);
+                hearts.push({ sprite, vx, vy, life: 1 });
+            };
+            // double radial ring blasting out of the mascot — fast outer
+            // shockwave plus a slower inner wave right behind it
+            const ring = 48;
+            for (let i = 0; i < ring; i++) {
+                const a = (i / ring) * Math.PI * 2 + Math.random() * 0.25;
+                const speed = 0.045 + Math.random() * 0.06;
+                addHeart(
+                    Math.cos(a) * 0.2,
+                    1.55 + Math.sin(a) * 0.2,
+                    Math.cos(a) * speed,
+                    Math.sin(a) * speed,
+                    0.2 + Math.random() * 0.24
+                );
+                addHeart(
+                    Math.cos(a) * 0.1,
+                    1.55 + Math.sin(a) * 0.1,
+                    Math.cos(a) * speed * 0.45,
+                    Math.sin(a) * speed * 0.45,
+                    0.14 + Math.random() * 0.18
+                );
+            }
+            // plus a dense scatter across the whole scene, drifting upward
+            for (let i = 0; i < 90; i++) {
+                addHeart(
+                    (Math.random() - 0.5) * 10,
+                    -1 + Math.random() * 5.2,
+                    (Math.random() - 0.5) * 0.02,
+                    0.02 + Math.random() * 0.035,
+                    0.12 + Math.random() * 0.26
+                );
+            }
+            // overjoyed pop + antenna flare to sell the moment
+            if (charGroup) {
+                gsap.timeline()
+                    .to(charGroup.scale, { x: 1.14, y: 0.82, z: 1.14, duration: 0.12, ease: "power2.in" })
+                    .to(charGroup.scale, { x: 1.05, y: 0.94, z: 1.05, duration: 0.8, ease: "elastic.out(1, 0.3)" });
+            }
+            if (antennaTip) {
+                gsap.killTweensOf(antennaTip.scale);
+                gsap.timeline({ onComplete: () => gsapPulse(antennaTip) })
+                    .to(antennaTip.scale, { x: 3.2, y: 3.2, z: 3.2, duration: 0.14 })
+                    .to(antennaTip.scale, { x: 1, y: 1, z: 1, duration: 0.5 });
+            }
+        };
         doEmote = () => {
             if (reducedMotion) return;
             gsap.timeline()
@@ -750,6 +811,11 @@
         stopPurr = playPurr();
         spawnHearts?.(6, 1.6);
         heartRainTimer = setInterval(() => spawnHearts?.(5, 1.6), 160);
+        // keep holding for 5s and she bursts with love
+        heartNovaTimer = setTimeout(() => {
+            spawnHeartNova?.();
+            playChirp();
+        }, 5000);
         // gentle happy squeeze while being held
         if (charGroup) {
             gsap.to(charGroup.scale, {
@@ -767,6 +833,8 @@
         longPressing = false;
         clearInterval(heartRainTimer);
         heartRainTimer = null;
+        clearTimeout(heartNovaTimer);
+        heartNovaTimer = null;
         stopPurr?.();
         stopPurr = null;
         if (charGroup) {
@@ -884,6 +952,7 @@
         clearTimeout(idleEmoteTimer);
         clearTimeout(longPressTimer);
         clearInterval(heartRainTimer);
+        clearTimeout(heartNovaTimer);
         stopPurr?.();
         clearInterval(speechTimer);
         window.removeEventListener("resize", resize);

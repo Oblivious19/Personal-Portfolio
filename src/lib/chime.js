@@ -60,8 +60,9 @@ export function playPurr() {
             master.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
             setTimeout(() => ctx.close().catch(() => {}), 400);
         };
-        // safety: never purr forever if release is missed
-        setTimeout(stop, 4000);
+        // safety: never purr forever if release is missed (long enough to
+        // cover the 5s heart-nova hold)
+        setTimeout(stop, 8000);
         return stop;
     } catch {
         ctx?.close().catch(() => {});

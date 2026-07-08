@@ -40,13 +40,16 @@
         // access is granted *by* the click: swap the prompt, then split open
         timers.push(setTimeout(splitReveal, 550));
     }
+    // pointerup, not pointerdown: on mobile a touch only grants the audio
+    // "user activation" when the finger lifts, so pointerdown would leave
+    // the chime blocked on phones
     function addEnterListeners() {
-        window.addEventListener("pointerdown", enter);
+        window.addEventListener("pointerup", enter);
         window.addEventListener("keydown", enter);
     }
     function removeEnterListeners() {
         if (!browser) return;
-        window.removeEventListener("pointerdown", enter);
+        window.removeEventListener("pointerup", enter);
         window.removeEventListener("keydown", enter);
     }
 
