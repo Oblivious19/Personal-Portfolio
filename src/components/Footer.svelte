@@ -95,14 +95,6 @@
                         /{item.label}
                     </a>
                 {/each}
-                <a
-                    href="/Shreya_Ojha_Resume.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-neon-violet hover:text-neon-violet-bright duration-200"
-                >
-                    /resume.pdf ↓
-                </a>
             </nav>
 
             <div class="flex items-center gap-3">
